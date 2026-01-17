@@ -84,7 +84,38 @@ node update_script.js --watch
 | `relationships` | Array | 人际关系列表 | `[{ "target": "bai-zhantang", "type": "love" ... }]` |
 | `timeline` | Array | 生平大事记 | `[{ "year": "...", "event": "..." }]` |
 
-## 4. 常见问题解决方法
+## 4. 部署与更新使用方法
+
+人物数据最终会通过 GitHub Pages 部署到线上网站（例如 `https://Eimcc.github.io/wlwz/`）。推荐的完整更新流程如下：
+
+1. 在本地添加或修改人物  
+   - 按 “2. 人物添加操作指南” 中的方法修改 `characters/data/*.json`。  
+   - 如有需要，更新头像等资源。
+
+2. 同步聚合数据  
+   在项目根目录执行：
+   ```bash
+   node update_script.js
+   ```
+   该脚本会生成/更新 `resources/characters-data.js` 和 `resources/characters.json`，供前端使用。
+
+3. 构建前端站点  
+   ```bash
+   npm run build
+   ```
+   Vite 会根据 `vite.config.ts` 将网站打包到 `docs/` 目录，用于 GitHub Pages 部署。
+
+4. 提交并推送到 GitHub  
+   ```bash
+   git add .
+   git commit -m "Update characters"
+   git push
+   ```
+   推送到 `main` 分支后，GitHub Pages 会自动从 `docs/` 目录重新部署网站。
+
+只要按照 “添加/修改人物 → `update_script` 同步 → `npm run build` 构建 → `git push` 发布” 这个顺序，线上人物图鉴就会保持最新。
+
+## 5. 常见问题解决方法
 
 ### Q1: 添加了人物但网页上不显示？
 **A:** 请确认您是否运行了 `node update_script.js`。前端读取的是 `resources/characters-data.js`，该文件需要通过脚本生成。
