@@ -5,8 +5,10 @@ import { traeBadgePlugin } from 'vite-plugin-trae-solo-badge';
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/wlwz/',
   build: {
     sourcemap: 'hidden',
+    outDir: 'docs',
   },
   plugins: [
     react({
