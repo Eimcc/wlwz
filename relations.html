@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关系图谱 - 武林外传人物图鉴</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Noto+Sans+SC:wght@300;400;500&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --wood-brown: #8B4513;
+            --warm-beige: #F5F5DC;
+            --deep-red: #A0522D;
+            --dark-green: #2F4F4F;
+            --paper-bg: #FAF0E6;
+            --text-dark: #3C2415;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, var(--paper-bg) 0%, #F0E6D2 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+        
+        .hero-title {
+            font-family: 'ZCOOL XiaoWei', serif;
+            background: linear-gradient(45deg, var(--wood-brown), var(--deep-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-bar {
+            background: linear-gradient(90deg, var(--wood-brown) 0%, var(--deep-red) 100%);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .control-panel {
+            background: rgba(255, 255, 255, 0.95);
+            border: 3px solid var(--wood-brown);
+            border-radius: 15px;
+            backdrop-filter: blur(15px);
+        }
+        
+        .filter-btn {
+            background: var(--warm-beige);
+            border: 2px solid var(--wood-brown);
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--wood-brown);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .stats-card {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid var(--wood-brown);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(139, 69, 19, 0.2);
+        }
+        
+        .relationship-legend {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid var(--wood-brown);
+            border-radius: 10px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 3px;
+            margin-right: 10px;
+            border-radius: 2px;
+        }
+        
+        .network-container {
+            background: rgba(255, 255, 255, 0.95);
+            border: 3px solid var(--wood-brown);
+            border-radius: 20px;
+            min-height: 600px;
+        }
+        
+        .character-node {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .character-node:hover {
+            transform: scale(1.1);
+        }
+        
+        .relationship-info {
+            background: rgba(255, 255, 255, 0.98);
+            border: 2px solid var(--deep-red);
+            border-radius: 15px;
+            max-width: 400px;
+        }
+        
+        .strength-bar {
+            height: 6px;
+            background: var(--warm-beige);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .strength-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--deep-red), var(--wood-brown));
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="nav-bar fixed top-0 w-full z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <h1 class="text-2xl font-bold text-white hero-title">武林外传图鉴</h1>
+                <span class="text-white text-sm hidden md:block">江湖儿女情，客栈风云录</span>
+            </div>
+            <div class="flex items-center space-x-6">
+                <a href="index.html" class="text-white hover:text-yellow-300 transition-colors font-medium">首页</a>
+                <a href="character.html" class="text-white hover:text-yellow-300 transition-colors font-medium">角色详情</a>
+                <a href="relations.html" class="text-white hover:text-yellow-300 transition-colors font-medium border-b-2 border-yellow-300">关系图谱</a>
+                <a href="activities.html" class="text-white hover:text-yellow-300 transition-colors font-medium">行为预测</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 主要内容 -->
+    <main class="pt-24 px-6">
+        <div class="max-w-7xl mx-auto">
+            <!-- 页面标题 -->
+            <div class="text-center mb-8">
+                <h1 class="text-4xl font-bold mb-4 hero-title">江湖关系图谱</h1>
+                <p class="text-lg text-gray-600">探索武林外传人物间的复杂关系网络</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <!-- 控制面板 -->
+                <div class="lg:col-span-1">
+                    <div class="control-panel p-6 mb-6">
+                        <h3 class="text-xl font-bold mb-4 hero-title">关系筛选</h3>
+                        <div class="space-y-3">
+                            <button class="filter-btn w-full px-4 py-2 rounded-lg font-medium active" onclick="filterRelationships('all')">
+                                显示全部
+                            </button>
+                            <button class="filter-btn w-full px-4 py-2 rounded-lg font-medium" onclick="filterRelationships('love')">
+                                爱情关系
+                            </button>
+                            <button class="filter-btn w-full px-4 py-2 rounded-lg font-medium" onclick="filterRelationships('friendship')">
+                                朋友关系
+                            </button>
+                            <button class="filter-btn w-full px-4 py-2 rounded-lg font-medium" onclick="filterRelationships('family')">
+                                亲情关系
+                            </button>
+                            <button class="filter-btn w-full px-4 py-2 rounded-lg font-medium" onclick="filterRelationships('enemy')">
+                                敌对关系
+                            </button>
+                            <button class="filter-btn w-full px-4 py-2 rounded-lg font-medium" onclick="filterRelationships('sect')">
+                                师门关系
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- 图例 -->
+                    <div class="relationship-legend p-4 mb-6">
+                        <h4 class="font-bold mb-3">关系图例</h4>
+                        <div class="legend-item">
+                            <div class="legend-color bg-red-500"></div>
+                            <span>爱情</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color bg-yellow-400"></div>
+                            <span>朋友</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color bg-green-500"></div>
+                            <span>亲情</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color bg-gray-500"></div>
+                            <span>敌对</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color bg-sky-400"></div>
+                            <span>师徒</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color bg-orange-400"></div>
+                            <span>追求者</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color bg-teal-400"></div>
+                            <span>同门</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 关系统计 -->
+                    <div class="stats-card p-6">
+                        <h3 class="text-xl font-bold mb-4 hero-title">关系统计</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span>总关系数：</span>
+                                <span id="total-relations" class="font-bold">24</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>核心人物：</span>
+                                <span id="core-characters" class="font-bold">9</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>最强关系：</span>
+                                <span id="strongest-relation" class="font-bold">佟湘玉-白展堂</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 关系网络图 -->
+                <div class="lg:col-span-3">
+                    <div class="network-container p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-2xl font-bold hero-title">关系网络</h3>
+                            <div class="flex space-x-2">
+                                <button onclick="resetZoom()" class="bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition-colors">
+                                    重置视图
+                                </button>
+                                <button onclick="toggleLayout()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                                    切换布局
+                                </button>
+                            </div>
+                        </div>
+                        <div id="network-chart" style="width: 100%; height: 600px;"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 关系详情面板 -->
+            <div id="relationship-details" class="hidden mt-8">
+                <div class="relationship-info p-6 mx-auto">
+                    <h3 class="text-xl font-bold mb-4 hero-title" id="relation-title">关系详情</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <div class="text-center">
+                            <img id="relation-source-avatar" src="" alt="" class="w-16 h-16 rounded-full mx-auto mb-2 border-2 border-amber-600">
+                            <p id="relation-source-name" class="font-medium"></p>
+                        </div>
+                        <div class="text-center flex flex-col justify-center">
+                            <p id="relation-type" class="text-lg font-bold mb-2"></p>
+                            <div class="strength-bar mx-4">
+                                <div id="relation-strength-bar" class="strength-fill" style="width: 0%"></div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-1">关系强度</p>
+                        </div>
+                        <div class="text-center">
+                            <img id="relation-target-avatar" src="" alt="" class="w-16 h-16 rounded-full mx-auto mb-2 border-2 border-amber-600">
+                            <p id="relation-target-name" class="font-medium"></p>
+                        </div>
+                    </div>
+                    <p id="relation-description" class="text-gray-700 mb-4"></p>
+                    <div id="relation-timeline" class="text-sm text-gray-600">
+                        <!-- 关系发展时间线 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- 页脚 -->
+    <footer class="bg-gradient-to-r from-gray-800 to-gray-900 text-white py-8 px-6 mt-16">
+        <div class="max-w-6xl mx-auto text-center">
+            <p class="text-lg mb-2">武林外传人物图鉴</p>
+            <p class="text-gray-400">© 2025 江湖儿女情，客栈风云录</p>
+        </div>
+    </footer>
+    
+    <script src="resources/characters-data.js"></script>
+    <script src="services/characterService.js"></script>
+    <script src="main.js"></script>
+    <script>
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initRelationsPage();
+            loadRelationsData();
+        });
+    </script>
+</body>
+</html>

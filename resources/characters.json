@@ -1,0 +1,1231 @@
+{
+    "bai-zhantang": {
+        "id": "bai-zhantang",
+        "name": "白展堂",
+        "aliases": [
+            "老白",
+            "盗圣",
+            "白玉汤"
+        ],
+        "faction": "葵花派",
+        "occupation": "跑堂",
+        "identity": [
+            "盗圣",
+            "盗贼出身",
+            "夜猫子"
+        ],
+        "martialArts": [
+            "葵花点穴手",
+            "轻功",
+            "易容术"
+        ],
+        "avatar": "characters/avatars/portraits/hero-portrait.png",
+        "description": "传说中的盗圣，却不热爱本职工作，退出江湖隐居此处。会点穴、有武功，其实胆小如鼠，想改过自新。十五六岁因轻功武功之高得了盗圣的名字，掌握了盗圣的技术，却没生一副盗贼的心肠。",
+        "quotes": [
+            "葵花点穴手！",
+            "我姓黄，黄豆豆的王！"
+        ],
+        "category": "tongfu",
+        "personality": {
+            "mbti": "ISFP",
+            "bigFive": {
+                "开放性": 85,
+                "责任心": 55,
+                "外向性": 60,
+                "宜人性": 88,
+                "情绪稳定性": 50
+            },
+            "traits": {
+                "胆小": 80,
+                "善良": 85,
+                "机智": 90,
+                "责任感": 70,
+                "自尊心": 75,
+                "忠诚": 88
+            }
+        },
+        "coreValues": [
+            "自由",
+            "义气",
+            "真诚",
+            "安全感",
+            "赎罪与改过"
+        ],
+        "hobbies": [
+            "点穴",
+            "轻功",
+            "评书"
+        ],
+        "relationships": [
+            {
+                "target": "tong-xiangyu",
+                "type": "love",
+                "strength": 95,
+                "description": "从江湖浪子到真心相爱，愿意为对方改变"
+            },
+            {
+                "target": "guo-furong",
+                "type": "friendship",
+                "strength": 50,
+                "description": "师兄妹关系，互相切磋武功，经常斗嘴"
+            },
+            {
+                "target": "zhu-wushuang",
+                "type": "family",
+                "strength": 60,
+                "description": "师兄妹，但有情感纠葛，最终成为亲人"
+            },
+            {
+                "target": "l-xiucai",
+                "type": "friendship",
+                "strength": 70,
+                "description": "好友关系，经常一起喝酒谈心"
+            },
+            {
+                "target": "l-dazui",
+                "type": "friendship",
+                "strength": 65,
+                "description": "同事关系，互相帮忙"
+            }
+        ],
+        "timeline": [
+            {
+                "episode": "少年",
+                "event": "成为盗圣，名震江湖，却内心空虚",
+                "year": "万历三十年"
+            },
+            {
+                "episode": "第1集",
+                "event": "退出江湖，加入同福客栈，开始新生活",
+                "year": "万历三十六年春"
+            },
+            {
+                "episode": "第20集",
+                "event": "盗圣身份曝光，经历内心挣扎",
+                "year": "万历三十六年秋"
+            },
+            {
+                "episode": "第40集",
+                "event": "与佟湘玉确立关系，真正融入客栈生活",
+                "year": "万历三十七年春"
+            },
+            {
+                "episode": "第60集",
+                "event": "帮助客栈度过多次危机，成为真正的家人",
+                "year": "万历三十七年冬"
+            }
+        ]
+    },
+    "guo-furong": {
+        "id": "guo-furong",
+        "name": "郭芙蓉",
+        "aliases": [
+            "小郭",
+            "芙蓉女侠",
+            "雌雄双煞"
+        ],
+        "faction": "郭巨侠府",
+        "occupation": "打杂",
+        "identity": [
+            "女侠",
+            "行侠仗义",
+            "雌雄双煞"
+        ],
+        "martialArts": [
+            "惊涛掌",
+            "排山倒海",
+            "分筋错骨手"
+        ],
+        "avatar": "characters/avatars/portraits/heroine-portrait.png",
+        "description": "家世显赫的大侠千金，父亲是郭巨侠，母亲是缉盗专家。渴望行侠仗义，一身娇横任性的毛病。虽武功不咋的，却是个标准的野蛮女友。从小争胜好胜，选择了一条离家出走的道路。",
+        "quotes": [
+            "排山倒海！！！",
+            "小心我给你点儿卡拉尔see see！",
+            "老虎不发威你当我是hello kitty！"
+        ],
+        "category": "tongfu",
+        "personality": {
+            "mbti": "ENFP",
+            "bigFive": {
+                "开放性": 80,
+                "责任心": 50,
+                "外向性": 85,
+                "宜人性": 65,
+                "情绪稳定性": 70
+            },
+            "traits": {
+                "暴躁": 90,
+                "正义感": 95,
+                "任性": 85,
+                "善良": 80,
+                "冲动": 88,
+                "成长": 70
+            }
+        },
+        "coreValues": [
+            "正义",
+            "自我证明",
+            "爱情",
+            "自由",
+            "热血与激情"
+        ],
+        "hobbies": [
+            "练武",
+            "行侠仗义",
+            "与秀才吵架",
+            "证明自己",
+            "学习家务"
+        ],
+        "relationships": [
+            {
+                "target": "l-xiucai",
+                "type": "love",
+                "strength": 85,
+                "description": "欢喜冤家，从互相看不顺眼到相亲相爱"
+            },
+            {
+                "target": "tong-xiangyu",
+                "type": "friendship",
+                "strength": 70,
+                "description": "从敌对到朋友，互相学习成长"
+            },
+            {
+                "target": "bai-zhantang",
+                "type": "friendship",
+                "strength": 75,
+                "description": "互相切磋武功，亦师亦友"
+            },
+            {
+                "target": "mo-xiaobei",
+                "type": "friendship",
+                "strength": 65,
+                "description": "保护与被保护，姐妹情深"
+            },
+            {
+                "target": "zhu-wushuang",
+                "type": "love_rival",
+                "strength": 40,
+                "description": "情敌关系，为吕秀才争风吃醋"
+            }
+        ],
+        "timeline": [
+            {
+                "episode": "开篇",
+                "event": "离家出走，成为雌雄双煞，专打坏人",
+                "year": "万历三十六年春"
+            },
+            {
+                "episode": "第1集",
+                "event": "怒砸同福客栈，被扣押成为杂役",
+                "year": "万历三十六年春"
+            },
+            {
+                "episode": "第10集",
+                "event": "与吕秀才相爱相杀，开始漫长的感情路",
+                "year": "万历三十六年夏"
+            },
+            {
+                "episode": "第50集",
+                "event": "武功大成，成为真正的芙蓉女侠",
+                "year": "万历三十七年夏"
+            },
+            {
+                "episode": "第80集",
+                "event": "与吕秀才终成眷属，成为客栈一员",
+                "year": "万历三十八年春"
+            }
+        ]
+    },
+    "l-dazui": {
+        "id": "l-dazui",
+        "name": "李秀莲",
+        "aliases": [
+            "李大嘴",
+            "同福大厨",
+            "食神传人"
+        ],
+        "faction": "菜刀门掌门人",
+        "occupation": "厨子",
+        "identity": [
+            "厨子",
+            "前捕头",
+            "食神传人",
+            "情场受挫"
+        ],
+        "martialArts": [
+            "玄铁菜刀刀法"
+        ],
+        "avatar": "characters/avatars/portraits/chef-portrait.png",
+        "description": "成天幻想学武功当大侠，就是不好好做饭。京城食神诸葛孔方的唯一传人，拥有玄铁菜刀（正面：旺德福，反面：泰瑞宝，刀把：我太富）。母亲是断指轩辕，曾经是个赌徒。",
+        "quotes": [
+            "我姑父是娄知县！",
+            "我可是菜刀门掌门人！",
+            "玄铁菜刀在手，天下我都有！"
+        ],
+        "category": "tongfu",
+        "personality": {
+            "mbti": "ESFP",
+            "bigFive": {
+                "开放性": 60,
+                "责任心": 50,
+                "外向性": 80,
+                "宜人性": 78,
+                "情绪稳定性": 55
+            },
+            "traits": {
+                "食量": 90,
+                "善恶": 75,
+                "懒惰": 80,
+                "乐观": 85,
+                "胆小": 70,
+                "重情义": 80
+            }
+        },
+        "coreValues": [
+            "朋友",
+            "美食",
+            "被需要",
+            "认可",
+            "简单快乐的生活"
+        ],
+        "hobbies": [
+            "做饭",
+            "学武功",
+            "幻想",
+            "吃东西",
+            "追求杨蕙兰"
+        ],
+        "relationships": [
+            {
+                "target": "yang-huilan",
+                "type": "love",
+                "strength": 60,
+                "description": "单相思的痴情厨子，为梦中情人付出一切"
+            },
+            {
+                "target": "tong-xiangyu",
+                "type": "friendship",
+                "strength": 65,
+                "description": "掌柜与厨子，雇佣关系但情同家人"
+            },
+            {
+                "target": "bai-zhantang",
+                "type": "friendship",
+                "strength": 70,
+                "description": "同事兼好友，经常一起闲聊"
+            },
+            {
+                "target": "l-xiucai",
+                "type": "friendship",
+                "strength": 60,
+                "description": "好友关系，一起喝酒谈心"
+            }
+        ],
+        "timeline": [
+            {
+                "episode": "早年",
+                "event": "在黄鹤楼洗碗，后成为七侠镇捕头",
+                "year": "万历三十四年"
+            },
+            {
+                "episode": "万历三十五年",
+                "event": "辞去捕头职务，来到同福客栈当厨子",
+                "year": "万历三十五年"
+            },
+            {
+                "episode": "第25集",
+                "event": "拜师诸葛孔方，获得玄铁菜刀",
+                "year": "万历三十七年春"
+            },
+            {
+                "episode": "第50集",
+                "event": "厨艺大成，成为真正的食神传人",
+                "year": "万历三十七年秋"
+            },
+            {
+                "episode": "后期",
+                "event": "与杨蕙兰关系有所进展，但仍未成功",
+                "year": "万历三十八年"
+            }
+        ]
+    },
+    "l-xiucai": {
+        "id": "l-xiucai",
+        "name": "吕轻侯",
+        "aliases": [
+            "吕秀才",
+            "关中大侠",
+            "草包书生"
+        ],
+        "faction": "前朝知府后人",
+        "occupation": "账房",
+        "identity": [
+            "书生",
+            "关中大侠",
+            "夜猫子"
+        ],
+        "martialArts": [
+            "嘴炮技能",
+            "讲道理"
+        ],
+        "avatar": "characters/avatars/portraits/scholar-portrait.png",
+        "description": "三岁识千字，五岁背唐诗，七岁熟读四书五经，八岁精通诗词歌赋，但却是百无一用的书生。神童成名，却迟迟考不中功名，无奈之下把祖产卖给了佟湘玉，当个账房乐得清闲。",
+        "quotes": [
+            "子曾经曰过...",
+            "我生从何来？死往何处？我为何要出现在这个世界上？我的出现对这个世界来说意味着什么？是世界选择了我，还是我选择了世界？！"
+        ],
+        "category": "tongfu",
+        "personality": {
+            "mbti": "INFP",
+            "bigFive": {
+                "开放性": 90,
+                "责任心": 75,
+                "外向性": 35,
+                "宜人性": 80,
+                "情绪稳定性": 60
+            },
+            "traits": {
+                "博学": 95,
+                "迂腐": 85,
+                "善良": 80,
+                "懦弱": 75,
+                "执着": 90,
+                "自尊": 70
+            }
+        },
+        "coreValues": [
+            "理想",
+            "知识",
+            "节操",
+            "爱情",
+            "体面与尊严"
+        ],
+        "hobbies": [
+            "读书",
+            "写日记",
+            "与郭芙蓉辩论",
+            "考取功名",
+            "子曰诗云"
+        ],
+        "relationships": [
+            {
+                "target": "guo-furong",
+                "type": "love",
+                "strength": 85,
+                "description": "书生与侠女的爱情故事，充满戏剧性"
+            },
+            {
+                "target": "tong-xiangyu",
+                "type": "friendship",
+                "strength": 65,
+                "description": "房东与房客，经常讨论人生哲理"
+            },
+            {
+                "target": "bai-zhantang",
+                "type": "friendship",
+                "strength": 70,
+                "description": "好友关系，互相理解支持"
+            },
+            {
+                "target": "l-dazui",
+                "type": "friendship",
+                "strength": 60,
+                "description": "同事关系，经常一起喝酒"
+            }
+        ],
+        "timeline": [
+            {
+                "episode": "童年",
+                "event": "神童成名，三岁识千字，五岁背唐诗",
+                "year": "万历二十八年"
+            },
+            {
+                "episode": "青年",
+                "event": "屡试不第，祖产败光，卖掉尚儒客栈",
+                "year": "万历三十五年"
+            },
+            {
+                "episode": "第1集",
+                "event": "成为同福客栈账房，开始新生活",
+                "year": "万历三十六年春"
+            },
+            {
+                "episode": "第30集",
+                "event": "获得关中大侠称号，成为不会武功的大侠",
+                "year": "万历三十六年冬"
+            },
+            {
+                "episode": "第80集",
+                "event": "与郭芙蓉终成眷属，考上举人",
+                "year": "万历三十八年春"
+            }
+        ]
+    },
+    "mo-xiaobei": {
+        "id": "mo-xiaobei",
+        "name": "莫小贝",
+        "aliases": [
+            "小贝",
+            "五岳盟主",
+            "赤焰狂魔",
+            "衡山掌门"
+        ],
+        "faction": "衡山派",
+        "occupation": "学生",
+        "identity": [
+            "衡山掌门",
+            "五岳盟主",
+            "小孩"
+        ],
+        "martialArts": [
+            "衡山剑法",
+            "葵花点穴手",
+            "五岳剑法"
+        ],
+        "avatar": "characters/avatars/portraits/heroine-portrait.png",
+        "description": "江湖上传闻是个女魔头，实际上是个爱逃学并且只想吃糖葫芦的小丫头片子。衡山派掌门兼五岳剑派总盟主。哥哥是莫小宝，嫂子是佟湘玉。",
+        "quotes": [
+            "我要吃糖葫芦！",
+            "你生是我衡山派人，死是我衡山派鬼"
+        ],
+        "category": "family",
+        "personality": {
+            "mbti": "ENTP",
+            "bigFive": {
+                "开放性": 80,
+                "责任心": 45,
+                "外向性": 80,
+                "宜人性": 70,
+                "情绪稳定性": 50
+            },
+            "traits": {
+                "顽皮": 90,
+                "天真": 85,
+                "贪吃": 80,
+                "善良": 75,
+                "叛逆": 70,
+                "聪明": 80
+            }
+        },
+        "coreValues": [
+            "自由",
+            "好玩",
+            "被保护又能保护别人",
+            "荣誉",
+            "家人"
+        ],
+        "hobbies": [
+            "吃糖葫芦",
+            "逃学",
+            "玩",
+            "当盟主",
+            "练功"
+        ],
+        "relationships": [
+            {
+                "target": "tong-xiangyu",
+                "type": "family",
+                "strength": 90,
+                "description": "小姑与嫂子，相依为命"
+            },
+            {
+                "target": "bai-zhantang",
+                "type": "friendship",
+                "strength": 75,
+                "description": "保护与被保护，情同兄妹"
+            },
+            {
+                "target": "guo-furong",
+                "type": "friendship",
+                "strength": 70,
+                "description": "姐妹情深，互相保护"
+            },
+            {
+                "target": "l-xiucai",
+                "type": "friendship",
+                "strength": 60,
+                "description": "师生关系，经常请教问题"
+            }
+        ],
+        "timeline": [
+            {
+                "episode": "开篇",
+                "event": "哥哥去世，成为衡山派掌门",
+                "year": "万历三十六年春"
+            },
+            {
+                "episode": "第3集",
+                "event": "考上白马书院，成为五岳盟主",
+                "year": "万历三十六年夏"
+            },
+            {
+                "episode": "中期",
+                "event": "学习衡山剑法，展现武学天赋",
+                "year": "万历三十六年秋"
+            },
+            {
+                "episode": "第70集",
+                "event": "武功大成，成为真正的武林高手",
+                "year": "万历三十七年冬"
+            },
+            {
+                "episode": "后期",
+                "event": "成长为优秀的掌门人，但仍童心未泯",
+                "year": "万历三十八年"
+            }
+        ]
+    },
+    "qian-furen": {
+        "id": "qian-furen",
+        "name": "钱夫人",
+        "aliases": [
+            "钱掌柜的夫人"
+        ],
+        "faction": "怡红楼",
+        "occupation": "老板娘",
+        "identity": [
+            "老板娘",
+            "爱财如命"
+        ],
+        "martialArts": [
+            "算盘功"
+        ],
+        "avatar": "characters/avatars/portraits/innkeeper-portrait.png",
+        "description": "怡红楼的老板娘，钱掌柜的妻子，为人精明，爱占小便宜，与同福客栈是竞争关系，但本性不坏。",
+        "quotes": [
+            "哎哟，这不是佟掌柜嘛！",
+            "如此高明的经营手段，我岂能容她存活于世？"
+        ],
+        "category": "jianghu",
+        "personality": {
+            "mbti": "ESTJ",
+            "bigFive": {
+                "开放性": 55,
+                "责任心": 85,
+                "外向性": 80,
+                "宜人性": 50,
+                "情绪稳定性": 65
+            },
+            "traits": {
+                "精明": 90,
+                "爱占小便宜": 85,
+                "好胜": 80,
+                "善良": 60,
+                "八卦": 75,
+                "嫉妒": 70
+            }
+        },
+        "coreValues": [
+            "赚钱",
+            "面子",
+            "控制感",
+            "家庭地位",
+            "胜负心"
+        ],
+        "hobbies": [
+            "赚钱",
+            "和佟湘玉攀比",
+            "打探消息"
+        ],
+        "relationships": [
+            {
+                "target": "tong-xiangyu",
+                "type": "enemy",
+                "strength": 70,
+                "description": "生意上的竞争对手，经常互相拆台"
+            },
+            {
+                "target": "qian-zhanggui",
+                "type": "family",
+                "strength": 90,
+                "description": "夫妻关系，共同经营怡红楼"
+            }
+        ],
+        "timeline": [
+            {
+                "episode": "中期",
+                "event": "与同福客栈展开商业竞争",
+                "year": "万历三十六年"
+            },
+            {
+                "episode": "后期",
+                "event": "在竞争中逐渐认识到友情的可贵",
+                "year": "万历三十七年"
+            }
+        ]
+    },
+    "qian-zhanggui": {
+        "id": "qian-zhanggui",
+        "name": "钱掌柜",
+        "aliases": [
+            "钱老板"
+        ],
+        "faction": "怡红楼",
+        "occupation": "掌柜",
+        "martialArts": [],
+        "avatar": "characters/avatars/portraits/scholar-portrait.png",
+        "description": "怡红楼的掌柜，钱夫人的丈夫，性格懦弱，怕老婆，但对妻子言听计从。",
+        "quotes": [
+            "夫人说的是..."
+        ],
+        "category": "jianghu",
+        "personality": {
+            "mbti": "ISFJ",
+            "bigFive": {
+                "开放性": 45,
+                "责任心": 60,
+                "外向性": 30,
+                "宜人性": 70,
+                "情绪稳定性": 75
+            },
+            "traits": {
+                "懦弱": 80,
+                "怕老婆": 90,
+                "善良": 70,
+                "没主见": 85
+            }
+        },
+        "coreValues": [
+            "家庭",
+            "安全",
+            "和谐",
+            "避免冲突",
+            "稳定生活"
+        ],
+        "hobbies": [
+            "听老婆话",
+            "躲在老婆身后"
+        ],
+        "relationships": [
+            {
+                "target": "qian-furen",
+                "type": "family",
+                "strength": 90,
+                "description": "对妻子唯命是从"
+            }
+        ],
+        "timeline": [
+            {
+                "episode": "中期",
+                "event": "作为妻子的陪衬出现",
+                "year": "万历三十六年"
+            }
+        ]
+    },
+    "tong-xiangyu": {
+        "id": "tong-xiangyu",
+        "name": "佟湘玉",
+        "aliases": [
+            "佟掌柜",
+            "玉美人"
+        ],
+        "faction": "龙门镖局",
+        "occupation": "客栈掌柜",
+        "identity": [
+            "掌柜",
+            "寡妇",
+            "商人",
+            "爱财如命"
+        ],
+        "martialArts": [],
+        "avatar": "characters/avatars/portraits/innkeeper-portrait.png",
+        "description": "同福客栈的掌柜，龙门镖局的千金，风情万种但心地善良，婆婆妈妈又十分鸡贼。虽为寡妇，却一直努力当好嫂子兼幼教家。她从小娇生惯养锦衣玉食，下嫁衡山派掌门，却成了寡妇，从此要肩负起照顾尚未成年的小姑子的责任。",
+        "quotes": "额滴个神啊！",
+        "category": "tongfu",
+        "personality": {
+            "mbti": "ENFJ",
+            "bigFive": {
+                "开放性": 70,
+                "责任心": 90,
+                "外向性": 75,
+                "宜人性": 80,
+                "情绪稳定性": 55
+            },
+            "traits": {
+                "抠门": 85,
+                "善良": 90,
+                "唠叨": 95,
+                "精明": 80,
+                "责任感": 88,
+                "情感丰富": 75
+            }
+        },
+        "coreValues": [
+            "家庭",
+            "责任",
+            "面子",
+            "事业",
+            "情义",
+            "体面生活"
+        ],
+        "hobbies": [
+            "算账",
+            "管教伙计",
+            "关心他人",
+            "节省开支",
+            "思念亡夫"
+        ],
+        "relationships": [
+            {
+                "target": "bai-zhantang",
+                "type": "love",
+                "strength": 95,
+                "description": "相知相守的恋人，互相扶持，经历风雨终成正果"
+            },
+            {
+                "target": "guo-furong",
+                "type": "friendship",
+                "strength": 70,
+                "description": "掌柜与伙计，亦师亦友，虽有摩擦但情同姐妹"
+            },
+            {
+                "target": "mo-xiaobei",
+                "type": "family",
+                "strength": 90,
+                "description": "长嫂如母，对小姑子关爱备至，承担起母亲的责任"
+            },
+            {
+                "target": "l-xiucai",
+                "type": "friendship",
+                "strength": 65,
+                "description": "房东与房客，经常讨论人生哲理"
+            },
+            {
+                "target": "l-dazui",
+                "type": "friendship",
+                "strength": 60,
+                "description": "掌柜与厨子，雇佣关系但关心备至"
+            },
+            {
+                "target": "zhu-wushuang",
+                "type": "friendship",
+                "strength": 55,
+                "description": "情敌关系但最终和解成为朋友"
+            }
+        ],
+        "timeline": [
+            {
+                "episode": "开篇",
+                "event": "成为寡妇，接管同福客栈，开始新的人生",
+                "year": "万历三十六年春"
+            },
+            {
+                "episode": "第5集",
+                "event": "遇到白展堂，开始漫长的追求之路",
+                "year": "万历三十六年夏"
+            },
+            {
+                "episode": "第40集",
+                "event": "与白展堂确立关系，情定终身",
+                "year": "万历三十七年春"
+            },
+            {
+                "episode": "第80集",
+                "event": "成为七侠镇知名商人，客栈生意红火",
+                "year": "万历三十八年"
+            }
+        ]
+    },
+    "xing-yusen": {
+        "id": "xing-yusen",
+        "name": "邢育森",
+        "aliases": [
+            "老邢",
+            "邢捕头"
+        ],
+        "faction": "七侠镇衙门",
+        "occupation": "捕头",
+        "identity": [
+            "捕头",
+            "六扇门系统内官",
+            "缁衣捕头"
+        ],
+        "martialArts": [
+            "醉拳",
+            "捕快功夫"
+        ],
+        "avatar": "characters/avatars/portraits/hero-portrait.png",
+        "description": "七侠镇衙门第三十七任缁衣捕头，燕小六的师父。每天梦想着破大案子，一身正气但却没有什么本事。后来调任十八里铺捕头。",
+        "quotes": "我身为七侠镇捕头，一定要为人民服务！",
+        "category": "official",
+        "personality": {
+            "mbti": "ESTJ",
+            "bigFive": {
+                "开放性": 50,
+                "责任心": 85,
+                "外向性": 65,
+                "宜人性": 60,
+                "情绪稳定性": 55
+            },
+            "traits": {
+                "正直": 80,
+                "糊涂": 85,
+                "善良": 75,
+                "官腔": 90,
+                "责任心": 70,
+                "乐观": 65
+            }
+        },
+        "coreValues": [
+            "职责",
+            "规矩",
+            "威信",
+            "清官形象",
+            "师徒情"
+        ],
+        "hobbies": [
+            "破案",
+            "打官腔",
+            "喝酒",
+            "教徒弟",
+            "做梦"
+        ],
+        "relationships": [
+            {
+                "target": "yan-xiaoliu",
+                "type": "family",
+                "strength": 80,
+                "description": "师徒情深，如父如子"
+            },
+            {
+                "target": "tong-xiangyu",
+                "type": "friendship",
+                "strength": 60,
+                "description": "官府与商户的关系"
+            },
+            {
+                "target": "bai-zhantang",
+                "type": "friendship",
+                "strength": 50,
+                "description": "捕头与跑堂，互相帮忙"
+            },
+            {
+                "target": "guo-furong",
+                "type": "friendship",
+                "strength": 45,
+                "description": "经常打交道，但经常被揍"
+            }
+        ],
+        "timeline": [
+            {
+                "episode": "早年",
+                "event": "成为七侠镇第三十七任捕头",
+                "year": "万历三十三年"
+            },
+            {
+                "episode": "万历三十五年",
+                "event": "收燕小六为徒，传授捕快技能",
+                "year": "万历三十五年"
+            },
+            {
+                "episode": "中期",
+                "event": "屡破奇案（其实都是巧合）",
+                "year": "万历三十六年"
+            },
+            {
+                "episode": "第60集",
+                "event": "调任十八里铺捕头，离开七侠镇",
+                "year": "万历三十七年冬"
+            },
+            {
+                "episode": "后期",
+                "event": "在十八里铺继续当捕头",
+                "year": "万历三十八年"
+            }
+        ]
+    },
+    "yan-xiaoliu": {
+        "id": "yan-xiaoliu",
+        "name": "燕小六",
+        "aliases": [
+            "小六",
+            "燕捕头",
+            "三儿"
+        ],
+        "faction": "七侠镇衙门",
+        "occupation": "捕头",
+        "identity": [
+            "捕头",
+            "官迷",
+            "六扇门中人"
+        ],
+        "martialArts": [
+            "乱挥刀法",
+            "醉拳",
+            "唢呐功"
+        ],
+        "avatar": "characters/avatars/portraits/hero-portrait.png",
+        "description": "七侠镇衙门第三十八任缁衣捕头，天津人，原是吹唢呐的。一生中最爱他的七舅姥爷，梦想成为天下第一捕头。后来调到京城六扇门。",
+        "quotes": "帮我照顾好我七舅姥爷和他三外甥女！",
+        "category": "official",
+        "personality": {
+            "mbti": "ESFP",
+            "bigFive": {
+                "开放性": 55,
+                "责任心": 40,
+                "外向性": 85,
+                "宜人性": 75,
+                "情绪稳定性": 45
+            },
+            "traits": {
+                "单纯": 85,
+                "善良": 70,
+                "官迷": 90,
+                "天真": 80,
+                "执着": 75,
+                "忠诚": 85
+            }
+        },
+        "coreValues": [
+            "好玩",
+            "当官出人头地",
+            "师徒情",
+            "江湖义气",
+            "简单快乐"
+        ],
+        "hobbies": [
+            "吹唢呐",
+            "打快板",
+            "当捕头",
+            "照顾七舅姥爷",
+            "练刀"
+        ],
+        "relationships": [
+            {
+                "target": "xing-yusen",
+                "type": "family",
+                "strength": 80,
+                "description": "师徒情深，视如父亲"
+            },
+            {
+                "target": "zhu-wushuang",
+                "type": "love",
+                "strength": 40,
+                "description": "暗恋无双，但无果而终"
+            },
+            {
+                "target": "guo-furong",
+                "type": "love",
+                "strength": 30,
+                "description": "小郭一厢情愿，但小六不知情"
+            },
+            {
+                "target": "tong-xiangyu",
+                "type": "friendship",
+                "strength": 55,
+                "description": "经常来客栈吃饭，关系不错"
+            }
+        ],
+        "timeline": [
+            {
+                "episode": "早年",
+                "event": "在天津种田，吹唢呐为生",
+                "year": "万历三十四年"
+            },
+            {
+                "episode": "万历三十五年",
+                "event": "被邢育森发掘，成为七侠镇捕快",
+                "year": "万历三十五年"
+            },
+            {
+                "episode": "中期",
+                "event": "学习捕快技能，梦想破大案",
+                "year": "万历三十六年"
+            },
+            {
+                "episode": "第60集",
+                "event": "升任捕头，接替邢育森",
+                "year": "万历三十七年冬"
+            },
+            {
+                "episode": "第80集",
+                "event": "调到京城六扇门，实现当官梦想",
+                "year": "万历三十八年春"
+            }
+        ]
+    },
+    "yang-huilan": {
+        "id": "yang-huilan",
+        "name": "杨蕙兰",
+        "aliases": [
+            "蕙兰",
+            "大嘴梦中情人"
+        ],
+        "faction": "江湖",
+        "occupation": "江湖艺人",
+        "identity": [
+            "江湖艺人",
+            "情场受挫"
+        ],
+        "martialArts": [
+            "刀法",
+            "鞭法"
+        ],
+        "avatar": "characters/avatars/portraits/heroine-portrait.png",
+        "description": "李大嘴的梦中情人，江湖艺人，擅长刀法和鞭法。曾经来到七侠镇卖艺，让李大嘴一见钟情。后来嫁给了别人，但仍是大嘴心中永远的痛。",
+        "quotes": "李大嘴，你是个好人...",
+        "category": "jianghu",
+        "personality": {
+            "mbti": "ISFP",
+            "bigFive": {
+                "开放性": 75,
+                "责任心": 60,
+                "外向性": 55,
+                "宜人性": 78,
+                "情绪稳定性": 60
+            },
+            "traits": {
+                "温柔": 80,
+                "善良": 85,
+                "独立": 75,
+                "多情": 70,
+                "坚强": 80,
+                "现实": 65
+            }
+        },
+        "coreValues": [
+            "爱情",
+            "自由",
+            "自尊",
+            "艺术与舞台",
+            "安全归宿"
+        ],
+        "hobbies": [
+            "卖艺",
+            "练功",
+            "旅行",
+            "结交朋友"
+        ],
+        "relationships": [
+            {
+                "target": "l-dazui",
+                "type": "love",
+                "strength": 60,
+                "description": "被李大嘴深深爱慕，但最终选择了别人"
+            }
+        ],
+        "timeline": [
+            {
+                "episode": "中期",
+                "event": "来到七侠镇卖艺，与李大嘴相识",
+                "year": "万历三十六年"
+            },
+            {
+                "episode": "后期",
+                "event": "嫁给杜子俊，离开七侠镇",
+                "year": "万历三十七年"
+            }
+        ]
+    },
+    "zhu-wushuang": {
+        "id": "zhu-wushuang",
+        "name": "祝无双",
+        "aliases": [
+            "无双",
+            "天真小捕快",
+            "葵花派弟子"
+        ],
+        "faction": "葵花派",
+        "occupation": "捕快",
+        "identity": [
+            "女捕快",
+            "葵花派弟子",
+            "情场受挫"
+        ],
+        "martialArts": [
+            "葵花点穴手",
+            "轻功",
+            "易容术",
+            "刺绣"
+        ],
+        "avatar": "characters/avatars/portraits/heroine-portrait.png",
+        "description": "葵花派倒数第一高手，什么都会，美丽却没有爱情光顾。苦苦等了十几年的师兄原来为了一根糖人欺骗了她。天真善良，多才多艺，擅长刺绣和点穴。",
+        "quotes": "师兄......",
+        "category": "official",
+        "personality": {
+            "mbti": "ISFJ",
+            "bigFive": {
+                "开放性": 65,
+                "责任心": 80,
+                "外向性": 45,
+                "宜人性": 82,
+                "情绪稳定性": 65
+            },
+            "traits": {
+                "天真": 85,
+                "善良": 90,
+                "痴情": 80,
+                "多才": 75,
+                "单纯": 88,
+                "坚韧": 70
+            }
+        },
+        "coreValues": [
+            "爱情",
+            "忠诚",
+            "秩序",
+            "安全感",
+            "自我价值"
+        ],
+        "hobbies": [
+            "刺绣",
+            "点穴",
+            "等待爱情",
+            "帮助别人",
+            "做女红"
+        ],
+        "relationships": [
+            {
+                "target": "bai-zhantang",
+                "type": "family",
+                "strength": 60,
+                "description": "师妹暗恋师兄十几年，最终释怀"
+            },
+            {
+                "target": "l-xiucai",
+                "type": "love",
+                "strength": 40,
+                "description": "短暂的情感纠葛，有缘无分"
+            },
+            {
+                "target": "yan-xiaoliu",
+                "type": "friendship",
+                "strength": 50,
+                "description": "同事关系，小六曾暗恋她"
+            },
+            {
+                "target": "guo-furong",
+                "type": "love_rival",
+                "strength": 40,
+                "description": "情敌关系，为吕秀才争风吃醋"
+            }
+        ],
+        "timeline": [
+            {
+                "episode": "童年",
+                "event": "加入葵花派，暗恋师兄白展堂",
+                "year": "万历三十年"
+            },
+            {
+                "episode": "中期",
+                "event": "寻找师兄，来到七侠镇成为捕快",
+                "year": "万历三十六年"
+            },
+            {
+                "episode": "第35集",
+                "event": "发现师兄心有所属，黯然神伤",
+                "year": "万历三十六年秋"
+            },
+            {
+                "episode": "第45集",
+                "event": "与吕秀才的情感纠葛，最终释怀",
+                "year": "万历三十七年春"
+            },
+            {
+                "episode": "后期",
+                "event": "独立成长，成为优秀的女捕快",
+                "year": "万历三十七年冬"
+            }
+        ]
+    }
+}

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>角色日志 - 武林外传人物图鉴</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Noto+Sans+SC:wght@300;400;500&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --wood-brown: #8B4513;
+            --warm-beige: #F5F5DC;
+            --deep-red: #A0522D;
+            --dark-green: #2F4F4F;
+            --paper-bg: #FAF0E6;
+            --text-dark: #3C2415;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, var(--paper-bg) 0%, #F0E6D2 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+        
+        .hero-title {
+            font-family: 'ZCOOL XiaoWei', serif;
+            background: linear-gradient(45deg, var(--wood-brown), var(--deep-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-bar {
+            background: linear-gradient(90deg, var(--wood-brown) 0%, var(--deep-red) 100%);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .control-panel {
+            background: rgba(255, 255, 255, 0.95);
+            border: 3px solid var(--wood-brown);
+            border-radius: 15px;
+            backdrop-filter: blur(15px);
+        }
+        
+        .prediction-card {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid var(--wood-brown);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .prediction-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(139, 69, 19, 0.2);
+        }
+        
+        .season-btn {
+            background: var(--warm-beige);
+            border: 2px solid var(--wood-brown);
+            transition: all 0.3s ease;
+        }
+        
+        .season-btn:hover, .season-btn.active {
+            background: var(--wood-brown);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .time-btn {
+            background: var(--warm-beige);
+            border: 2px solid var(--deep-red);
+            transition: all 0.3s ease;
+        }
+        
+        .time-btn:hover, .time-btn.active {
+            background: var(--deep-red);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .activity-timeline {
+            position: relative;
+        }
+        
+        .activity-timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--wood-brown);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 8px;
+            width: 16px;
+            height: 16px;
+            background: var(--deep-red);
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px var(--wood-brown);
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 28px;
+            top: 15px;
+            width: 0;
+            height: 0;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-left: 8px solid var(--wood-brown);
+        }
+        
+        .activity-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid var(--deep-red);
+            border-radius: 10px;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .mood-indicator {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .mood-happy { background: #34D399; color: #064E3B; }
+        .mood-excited { background: #FDE68A; color: #92400E; }
+        .mood-calm { background: #DBEAFE; color: #1D4ED8; }
+        .mood-sad { background: #E5E7EB; color: #374151; }
+        .mood-angry { background: #FECACA; color: #B91C1C; }
+        
+        .prop-item {
+            background: var(--warm-beige);
+            border: 1px solid var(--wood-brown);
+            border-radius: 8px;
+            padding: 8px 12px;
+            display: inline-block;
+            margin: 4px;
+            font-size: 0.875rem;
+        }
+        
+        .location-tag {
+            background: var(--dark-green);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            display: inline-block;
+        }
+        
+        .probability-bar {
+            height: 8px;
+            background: var(--warm-beige);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .probability-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--deep-red), var(--wood-brown));
+            transition: width 0.5s ease;
+        }
+        
+        .character-selector {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid var(--wood-brown);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .character-selector:hover, .character-selector.selected {
+            background: var(--warm-beige);
+            transform: scale(1.02);
+        }
+
+        /* 自定义滚动条 */
+        #activity-log::-webkit-scrollbar {
+            width: 8px;
+        }
+        #activity-log::-webkit-scrollbar-track {
+            background: rgba(245, 245, 220, 0.5);
+            border-radius: 4px;
+        }
+        #activity-log::-webkit-scrollbar-thumb {
+            background: var(--wood-brown);
+            border-radius: 4px;
+        }
+        #activity-log::-webkit-scrollbar-thumb:hover {
+            background: var(--deep-red);
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="nav-bar fixed top-0 w-full z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <h1 class="text-2xl font-bold text-white hero-title">武林外传图鉴</h1>
+                <span class="text-white text-sm hidden md:block">江湖儿女情，客栈风云录</span>
+            </div>
+            <div class="flex items-center space-x-6">
+                <a href="index.html" class="text-white hover:text-yellow-300 transition-colors font-medium">首页</a>
+                <a href="character.html" class="text-white hover:text-yellow-300 transition-colors font-medium">角色详情</a>
+                <a href="relations.html" class="text-white hover:text-yellow-300 transition-colors font-medium">关系图谱</a>
+                <a href="activities.html" class="text-white hover:text-yellow-300 transition-colors font-medium border-b-2 border-yellow-300">角色日志</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 主要内容 -->
+    <main class="pt-24 px-6">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-8">
+                <h1 class="text-4xl font-bold mb-4 hero-title">角色日志</h1>
+                <p class="text-lg text-gray-600">结合当前天气，回顾角色最近的日常轨迹</p>
+            </div>
+
+            <div class="control-panel p-6">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
+                    <div class="flex gap-8">
+                        <div>
+                            <p class="text-lg font-bold" id="log-current-time">--</p>
+                        </div>
+                        <div>
+                            <p class="text-lg font-bold" id="log-current-weather">--</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4 hero-title">选择角色</h3>
+                        <div id="character-selection" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        </div>
+                    </div>
+                    <div class="md:col-span-2">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold hero-title">活动日志</h3>
+                            <button id="log-toggle-btn" class="px-4 py-2 text-sm rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 transition-all">
+                                查看近七日
+                            </button>
+                        </div>
+                        <div id="activity-log" class="activity-timeline min-h-[120px] max-h-[600px] overflow-y-auto pr-2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- 页脚 -->
+    <footer class="bg-gradient-to-r from-gray-800 to-gray-900 text-white py-8 px-6 mt-16">
+        <div class="max-w-6xl mx-auto text-center">
+            <p class="text-lg mb-2">武林外传人物图鉴</p>
+            <p class="text-gray-400">© 2025 江湖儿女情，客栈风云录</p>
+        </div>
+    </footer>
+    
+    <script src="resources/characters-data.js"></script>
+    <script src="services/characterService.js"></script>
+    <script src="main.js"></script>
+    <script>
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initActivitiesPage();
+            loadActivitiesData();
+        });
+    </script>
+</body>
+</html>
