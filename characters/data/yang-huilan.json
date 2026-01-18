@@ -17,7 +17,11 @@
     ],
     "avatar": "characters/avatars/portraits/heroine-portrait.png", // 头像路径
     "description": "李大嘴的梦中情人，江湖艺人，擅长刀法和鞭法。曾经来到七侠镇卖艺，让李大嘴一见钟情。后来嫁给了别人，但仍是大嘴心中永远的痛。", // 人物简介
-    "quotes": "李大嘴，你是个好人...", // 经典台词
+    "quotes": [ // 经典台词
+        "我就喜欢打老婆的，打是疼骂是爱～",
+        "你帅吗 你有钱吗",
+        "看！刀！"
+    ],
     "category": "jianghu", // 分类
     "personality": { // 性格数据
         "mbti": "ISFP",

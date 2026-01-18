@@ -747,7 +747,11 @@ window.charactersData = {
         "martialArts": [],
         "avatar": "characters/avatars/portraits/innkeeper-portrait.png",
         "description": "同福客栈的掌柜，龙门镖局的千金，风情万种但心地善良，婆婆妈妈又十分鸡贼。虽为寡妇，却一直努力当好嫂子兼幼教家。她从小娇生惯养锦衣玉食，下嫁衡山派掌门，却成了寡妇，从此要肩负起照顾尚未成年的小姑子的责任。",
-        "quotes": "额滴个神啊！",
+        "quotes": [
+            "额滴个神啊！",
+            "额错咧，额真滴错咧，额从一开始就不应该嫁过来！",
+            "额姓佟 佟湘玉的玉～"
+        ],
         "category": "tongfu",
         "personality": {
             "mbti": "ENFJ",
@@ -863,7 +867,11 @@ window.charactersData = {
         ],
         "avatar": "characters/avatars/portraits/hero-portrait.png",
         "description": "七侠镇衙门第三十七任缁衣捕头，燕小六的师父。每天梦想着破大案子，一身正气但却没有什么本事。后来调任十八里铺捕头。",
-        "quotes": "我身为七侠镇捕头，一定要为人民服务！",
+        "quotes": [
+            "小贼哪里跑！",
+            "我看好你哟",
+            "我公务在身 我心系百姓！"
+        ],
         "category": "official",
         "personality": {
             "mbti": "ESTJ",
@@ -973,7 +981,11 @@ window.charactersData = {
         ],
         "avatar": "characters/avatars/portraits/hero-portrait.png",
         "description": "七侠镇衙门第三十八任缁衣捕头，天津人，原是吹唢呐的。一生中最爱他的七舅姥爷，梦想成为天下第一捕头。后来调到京城六扇门。",
-        "quotes": "帮我照顾好我七舅姥爷和他三外甥女！",
+        "quotes": [
+            "帮我照顾好我七舅姥爷和他三外甥女！",
+            "笑锅，嫁给我恁模样",
+            "凡于闹市虐杀牲畜者……斩立决！"
+        ],
         "category": "official",
         "personality": {
             "mbti": "ESFP",
@@ -1080,7 +1092,11 @@ window.charactersData = {
         ],
         "avatar": "characters/avatars/portraits/heroine-portrait.png",
         "description": "李大嘴的梦中情人，江湖艺人，擅长刀法和鞭法。曾经来到七侠镇卖艺，让李大嘴一见钟情。后来嫁给了别人，但仍是大嘴心中永远的痛。",
-        "quotes": "李大嘴，你是个好人...",
+        "quotes": [
+            "我就喜欢打老婆的，打是疼骂是爱～",
+            "你帅吗 你有钱吗",
+            "看！刀！"
+        ],
         "category": "jianghu",
         "personality": {
             "mbti": "ISFP",
@@ -1157,7 +1173,11 @@ window.charactersData = {
         ],
         "avatar": "characters/avatars/portraits/heroine-portrait.png",
         "description": "葵花派倒数第一高手，什么都会，美丽却没有爱情光顾。苦苦等了十几年的师兄原来为了一根糖人欺骗了她。天真善良，多才多艺，擅长刺绣和点穴。",
-        "quotes": "师兄......",
+        "quotes": [
+            "放着我来！",
+            "有些人血里有风 注定要漂泊的",
+            "白驼山壮骨粉，青春的粉，友谊的粉，看着很像面粉吃着更像面粉"
+        ],
         "category": "official",
         "personality": {
             "mbti": "ISFJ",

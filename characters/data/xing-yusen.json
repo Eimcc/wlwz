@@ -18,7 +18,11 @@
     ],
     "avatar": "characters/avatars/portraits/hero-portrait.png", // 头像路径
     "description": "七侠镇衙门第三十七任缁衣捕头，燕小六的师父。每天梦想着破大案子，一身正气但却没有什么本事。后来调任十八里铺捕头。", // 人物简介
-    "quotes": "我身为七侠镇捕头，一定要为人民服务！", // 经典台词
+    "quotes": [ // 经典台词
+        "小贼哪里跑！",
+        "我看好你哟",
+        "我公务在身 我心系百姓！"
+    ],
     "category": "official", // 分类
     "personality": { // 性格数据
         "mbti": "ESTJ",

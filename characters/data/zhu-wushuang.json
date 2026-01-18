@@ -21,7 +21,11 @@
     ],
     "avatar": "characters/avatars/portraits/heroine-portrait.png", // 头像路径
     "description": "葵花派倒数第一高手，什么都会，美丽却没有爱情光顾。苦苦等了十几年的师兄原来为了一根糖人欺骗了她。天真善良，多才多艺，擅长刺绣和点穴。", // 人物简介
-    "quotes": "师兄......", // 经典台词
+    "quotes": [ // 经典台词
+        "放着我来！",
+        "有些人血里有风 注定要漂泊的",
+        "白驼山壮骨粉，青春的粉，友谊的粉，看着很像面粉吃着更像面粉"
+    ],
     "category": "official", // 分类
     "personality": { // 性格数据
         "mbti": "ISFJ",

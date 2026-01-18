@@ -20,7 +20,11 @@
     ],
     "avatar": "characters/avatars/portraits/hero-portrait.png", // 头像路径
     "description": "七侠镇衙门第三十八任缁衣捕头，天津人，原是吹唢呐的。一生中最爱他的七舅姥爷，梦想成为天下第一捕头。后来调到京城六扇门。", // 人物简介
-    "quotes": "帮我照顾好我七舅姥爷和他三外甥女！", // 经典台词
+    "quotes": [ // 经典台词
+        "帮我照顾好我七舅姥爷和他三外甥女！",
+        "笑锅，嫁给我恁模样",
+        "凡于闹市虐杀牲畜者……斩立决！"
+    ],
     "category": "official", // 分类
     "personality": { // 性格数据
         "mbti": "ESFP",

@@ -16,7 +16,11 @@
     "martialArts": [], // 武功招式
     "avatar": "characters/avatars/portraits/innkeeper-portrait.png", // 头像路径
     "description": "同福客栈的掌柜，龙门镖局的千金，风情万种但心地善良，婆婆妈妈又十分鸡贼。虽为寡妇，却一直努力当好嫂子兼幼教家。她从小娇生惯养锦衣玉食，下嫁衡山派掌门，却成了寡妇，从此要肩负起照顾尚未成年的小姑子的责任。", // 人物简介
-    "quotes": "额滴个神啊！", // 经典台词
+    "quotes": [ // 经典台词
+        "额滴个神啊！",
+        "额错咧，额真滴错咧，额从一开始就不应该嫁过来！",
+        "额姓佟 佟湘玉的玉～"
+    ],
     "category": "tongfu", // 分类
     "personality": { // 性格数据
         "mbti": "ENFJ",
