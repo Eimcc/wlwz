@@ -193,8 +193,15 @@
 <body>
     <script>
         (function () {
-            var target = '/wlwz/character';
-            window.location.replace(target + window.location.search + window.location.hash);
+            var path = window.location.pathname || '';
+            var search = window.location.search || '';
+            var hash = window.location.hash || '';
+
+            var match = path.match(/^(.*\/)character(?:\.html)?$/);
+            var base = match && match[1] ? match[1] : '/';
+
+            var target = base + '?target=character';
+            window.location.replace(target + search + hash);
         })();
     </script>
 </body>

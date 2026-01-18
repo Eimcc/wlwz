@@ -1,9 +1,9 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Home from "@/pages/Home";
 import CharacterPage from "@/pages/Character";
 import RelationsPage from "@/pages/Relations";
 import ActivitiesPage from "@/pages/Activities";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 
 function Layout({ children }: { children: ReactNode }) {
   return (
@@ -68,18 +68,43 @@ function Layout({ children }: { children: ReactNode }) {
   );
 }
 
+function AppRoutes() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const target = params.get("target");
+    if (!target) return;
+
+    params.delete("target");
+    const rest = params.toString();
+    const search = rest ? `?${rest}` : "";
+
+    if (target === "relations") {
+      navigate(`/relations${search}`, { replace: true });
+    } else if (target === "character") {
+      navigate(`/character${search}`, { replace: true });
+    }
+  }, [location.search, navigate]);
+
+  return (
+    <Layout>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/index.html" element={<Home />} />
+        <Route path="/character" element={<CharacterPage />} />
+        <Route path="/relations" element={<RelationsPage />} />
+        <Route path="/activities" element={<ActivitiesPage />} />
+      </Routes>
+    </Layout>
+  );
+}
+
 export default function App() {
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/index.html" element={<Home />} />
-          <Route path="/character" element={<CharacterPage />} />
-          <Route path="/relations" element={<RelationsPage />} />
-          <Route path="/activities" element={<ActivitiesPage />} />
-        </Routes>
-      </Layout>
+      <AppRoutes />
     </BrowserRouter>
   );
 }
