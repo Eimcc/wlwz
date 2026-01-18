@@ -1238,7 +1238,7 @@ function renderActivityLogForCharacter(id) {
     logs.sort(function (a, b) {
         const ta = typeof a.timestamp === 'number' ? a.timestamp : 0;
         const tb = typeof b.timestamp === 'number' ? b.timestamp : 0;
-        return ta - tb;
+        return tb - ta;
     });
     logs = compressConsecutiveLogs(logs);
     let html = '';
