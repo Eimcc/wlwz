@@ -11,6 +11,7 @@ wlwz/
 ├── characters/
 │   ├── avatars/              # 存放人物头像图片 (.png, .jpg)
 │   ├── data/                 # 存放人物 JSON 数据文件 (每个文件代表一个人物)
+│   ├── events/               # 存放通用事件 JSON
 │   └── templates/
 │       └── character_template.json  # 标准人物数据模板
 ├── resources/
@@ -19,8 +20,10 @@ wlwz/
 ├── services/
 │   └── characterService.js   # 前端数据服务层
 ├── add_character.js          # [工具] 交互式添加人物脚本
-├── update_script.js          # [工具] 数据同步与索引生成脚本
-└── extract_characters.js     # [工具] (仅一次性) 从 main.js 提取数据
+├── build_data.js             # [工具] 统一生成人物与事件数据
+└── archive/
+    ├── CHARACTERS_README.md  # 本文档与归档脚本
+    └── update_script.js      # 旧版数据同步脚本示例
 ```
 
 ## 2. 人物添加操作指南
@@ -49,19 +52,27 @@ wlwz/
 4. 使用文本编辑器打开并填写详细信息。
 5. 将人物头像图片放入 `characters/avatars/` 目录，并在 JSON 中更新 `avatar` 字段路径。
 
-### 数据同步
+### 数据同步（当前推荐）
 
-无论使用哪种方式，添加或修改人物数据后，都需要更新前端资源文件。
+无论使用哪种方式，添加或修改人物或事件数据后，都需要更新前端资源文件。
 
-**手动同步：**
+**标准同步方式：**
 ```bash
-node update_script.js
+npm run update-data
 ```
 
-**自动同步 (开发模式)：**
-您可以启动监听模式，当 `characters/data` 目录发生变化时自动同步：
+该命令会调用根目录下的 `build_data.js`，生成/更新 `resources/characters-data.js` 和 `resources/characters.json`。
+
+如果你更习惯直接运行 Node，也可以使用：
+
 ```bash
-node update_script.js --watch
+node build_data.js
+```
+
+如需监听模式（开发时自动同步），可以执行：
+
+```bash
+node build_data.js --watch
 ```
 
 ## 3. 数据字段说明
@@ -95,9 +106,9 @@ node update_script.js --watch
 2. 同步聚合数据  
    在项目根目录执行：
    ```bash
-   node update_script.js
+   npm run update-data
    ```
-   该脚本会生成/更新 `resources/characters-data.js` 和 `resources/characters.json`，供前端使用。
+   该命令会运行 `build_data.js`，生成/更新 `resources/characters-data.js` 和 `resources/characters.json`，供前端使用。
 
 3. 构建前端站点  
    ```bash
@@ -118,12 +129,12 @@ node update_script.js --watch
 ## 5. 常见问题解决方法
 
 ### Q1: 添加了人物但网页上不显示？
-**A:** 请确认您是否运行了 `node update_script.js`。前端读取的是 `resources/characters-data.js`，该文件需要通过脚本生成。
+**A:** 请确认您是否运行了 `npm run update-data`。前端读取的是 `resources/characters-data.js`，该文件需要通过脚本生成。
 
 ### Q2: 人物详情页显示 "Character not found"？
 **A:** 
 1. 检查 URL 中的 ID 是否与 JSON 文件中的 `id` 字段一致。
-2. 确认 `resources/characters-data.js` 已更新。
+2. 确认 `resources/characters-data.js` 已更新（必要时重新执行 `npm run update-data`）。
 3. 检查浏览器控制台是否有错误信息。
 
 ### Q3: 头像无法显示？
@@ -138,4 +149,66 @@ node update_script.js --watch
 2. JSON 格式必须严格（属性名用双引号，不能有多余逗号）。
 
 ### Q5: 监听模式 (`--watch`) 没有反应？
-**A:** 监听模式依赖于文件系统事件。某些编辑器保存文件时可能会使用"原子保存"（先创建临时文件再重命名），这有时会导致监听器失效。如果遇到此问题，请尝试重新启动脚本，或直接运行一次 `node update_script.js` 进行手动更新。
+**A:** 监听模式依赖于文件系统事件。某些编辑器保存文件时可能会使用"原子保存"（先创建临时文件再重命名），这有时会导致监听器失效。如果遇到此问题，请尝试重新启动脚本，或直接运行一次 `npm run update-data` 进行手动更新。
+
+## 6. 事件系统与数据更新新方法（当前项目用法）
+
+本项目现在支持通过 JSON 文件管理“日常事件”和“角色专属事件”，并通过统一脚本生成前端可用的数据。
+
+### 6.1 事件文件位置
+
+- 通用事件：放在 `characters/events/` 目录下，文件格式为 `.json`。
+- 角色专属事件：直接写在对应人物 JSON 中的 `events` 字段内，例如：
+
+```json
+"events": [
+    {
+        "id": "bai_practice_point",
+        "title": "偷偷练习点穴",
+        "detail": "{name} 趁大堂没人注意，对着空气比划了两下“葵花点穴手”，确认手生没生。",
+        "location": "大堂角落",
+        "type": "personal",
+        "baseWeight": 20,
+        "conditions": {
+            "timeOfDay": ["afternoon", "evening"]
+        }
+    }
+]
+```
+
+常用条件字段（可选）：
+
+- `timeOfDay`: `"morning"`, `"afternoon"`, `"evening"`, `"night"`
+- `weather`: `"sunny"`, `"rainy"`, `"cloudy"`, `"snowy"`
+- `occupation`: 字符串或字符串数组，如 `"厨子"` 或 `["捕快", "捕头"]`
+- `identity`: 根据人物 `identity` 中的标签做包含匹配，如 `"爱财如命"`
+- `characterId`: 限制只对某些人物 ID 生效
+
+事件文案中可以使用 `{name}`，运行时会自动替换成人物名字。
+
+### 6.2 数据生成与同步命令
+
+每次修改 `characters/data/*.json` 或 `characters/events/*.json` 后，执行：
+
+```bash
+npm run update-data
+```
+
+该命令会运行 `build_data.js`，自动：
+
+- 聚合人物数据为 `resources/characters.json`
+- 生成前端使用的 `resources/characters-data.js`
+- 在浏览器中通过 `window.charactersData` 和 `window.eventsData` 访问
+
+之后如需部署到线上，仍然按原流程执行：
+
+```bash
+npm run build
+git add .
+git commit -m "Update characters and events"
+git push
+```
+
+简单记忆流程：
+
+> 改人物或事件 JSON → `npm run update-data` → `npm run build` → `git push`

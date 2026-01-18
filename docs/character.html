@@ -193,12 +193,7 @@
 <body>
     <script>
         (function () {
-            var target;
-            if (location.hostname === 'localhost' && location.port === '5173') {
-                target = '/character';
-            } else {
-                target = '/wlwz/character';
-            }
+            var target = '/wlwz/character';
             window.location.replace(target + window.location.search + window.location.hash);
         })();
     </script>

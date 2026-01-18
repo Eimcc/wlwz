@@ -4,7 +4,7 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import { traeBadgePlugin } from 'vite-plugin-trae-solo-badge';
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   base: '/wlwz/',
   build: {
     sourcemap: 'hidden',
@@ -12,11 +12,13 @@ export default defineConfig({
   },
   plugins: [
     react({
-      babel: {
-        plugins: [
-          'react-dev-locator',
-        ],
-      },
+      babel: command === 'serve'
+        ? {
+            plugins: [
+              'react-dev-locator',
+            ],
+          }
+        : undefined,
       exclude: [
         /\/resources\//,
         /\/services\//,
@@ -34,4 +36,4 @@ export default defineConfig({
     }), 
     tsconfigPaths()
   ],
-})
+}))

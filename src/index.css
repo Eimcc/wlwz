@@ -11,4 +11,119 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --wood-brown: #8B4513;
+  --warm-beige: #F5F5DC;
+  --deep-red: #A0522D;
+  --dark-green: #2F4F4F;
+  --paper-bg: #FAF0E6;
+  --text-dark: #3C2415;
+}
+
+body {
+  font-family: "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Noto Sans", Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+  background: linear-gradient(135deg, var(--paper-bg) 0%, #F0E6D2 100%);
+  color: var(--text-dark);
+  min-height: 100vh;
+}
+
+.hero-title {
+  font-family: "ZCOOL XiaoWei", serif;
+  background: linear-gradient(45deg, var(--wood-brown), var(--deep-red));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.character-card {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid var(--wood-brown);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.character-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(139, 69, 19, 0.3);
+  border-color: var(--deep-red);
+}
+
+.search-container {
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid var(--wood-brown);
+  border-radius: 15px;
+  backdrop-filter: blur(15px);
+}
+
+.nav-bar {
+  background: linear-gradient(90deg, var(--wood-brown) 0%, var(--deep-red) 100%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.filter-btn {
+  background: var(--warm-beige);
+  border: 2px solid var(--wood-brown);
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background: var(--wood-brown);
+  color: white;
+  transform: scale(1.05);
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid var(--deep-red);
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(160, 82, 45, 0.3);
+}
+
+.splide__arrow {
+  background: var(--wood-brown) !important;
+  opacity: 0.8;
+}
+
+.splide__arrow:hover {
+  opacity: 1;
+}
+
+.particle-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.3;
+}
+
+.quote-text {
+  font-family: "Noto Serif SC", serif;
+  font-style: italic;
+  color: var(--deep-red);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.faction-tag {
+  background: var(--dark-green);
+  color: white;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.martial-arts-tag {
+  background: var(--deep-red);
+  color: white;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 12px;
 }

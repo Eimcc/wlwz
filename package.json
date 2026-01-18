@@ -4,8 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "update-data": "node build_data.js",
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && node copy_static_assets.js",
     "lint": "eslint .",
     "preview": "vite preview",
     "check": "tsc -b --noEmit"
