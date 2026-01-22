@@ -1,12 +1,16 @@
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 export default function CharacterPage() {
+  const location = useLocation();
+
   useEffect(() => {
     (window as any).initCharacterPage?.();
-    const search = window.location.search || "";
+    const search = location.search || "";
     const params = new URLSearchParams(search);
     let characterId = params.get("id");
     if (!characterId) {
+      // Fallback for direct hash access if useLocation doesn't catch it for some reason (rare in HashRouter)
       const match = window.location.href.match(/[?&]id=([^&#]*)/);
       if (match) {
         characterId = decodeURIComponent(match[1]);
@@ -15,7 +19,7 @@ export default function CharacterPage() {
     const targetId = characterId || "tong-xiangyu";
     (window as any).loadCharacterData?.(targetId);
     (window as any).updateVisitorStats?.();
-  }, []);
+  }, [location.search]);
 
   return (
     <main className="pt-20 px-4">

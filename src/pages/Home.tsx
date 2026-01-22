@@ -1,8 +1,11 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const heroBg = `${import.meta.env.BASE_URL}resources/backgrounds/inn-interior.webp`;
 
 export default function Home() {
+  const navigate = useNavigate();
+
   useEffect(() => {
     (window as any).initIndexPage?.();
     (window as any).updateVisitorStats?.();
@@ -51,7 +54,7 @@ export default function Home() {
               </button>
               <button
                 onClick={() => {
-                  window.location.href = "relations";
+                  navigate("/relations");
                 }}
                 className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-gray-800 transition-all"
               >

@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { HashRouter, Routes, Route, useLocation, useNavigate, Link } from "react-router-dom";
 import Home from "@/pages/Home";
 import CharacterPage from "@/pages/Character";
 import RelationsPage from "@/pages/Relations";
@@ -19,30 +19,30 @@ function Layout({ children }: { children: ReactNode }) {
             </span>
           </div>
           <div className="flex items-center space-x-6">
-            <a
-              href="./"
+            <Link
+              to="/"
               className="text-white hover:text-yellow-300 transition-colors font-medium"
             >
               首页
-            </a>
-            <a
-              href="character"
+            </Link>
+            <Link
+              to="/character"
               className="text-white hover:text-yellow-300 transition-colors font-medium"
             >
               角色详情
-            </a>
-            <a
-              href="relations"
+            </Link>
+            <Link
+              to="/relations"
               className="text-white hover:text-yellow-300 transition-colors font-medium"
             >
               关系图谱
-            </a>
-            <a
-              href="activities"
+            </Link>
+            <Link
+              to="/activities"
               className="text-white hover:text-yellow-300 transition-colors font-medium"
             >
               角色日志
-            </a>
+            </Link>
           </div>
         </div>
       </nav>

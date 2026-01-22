@@ -326,7 +326,7 @@ function loadCharacterData(id) {
             if (rel.type === 'love_rival') badgeClass = 'bg-pink-500';
 
             return `
-                <div class="flex items-center justify-between p-2 bg-white border border-gray-100 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer" onclick="window.location.href='character?id=${targetChar.id}'">
+                <div class="flex items-center justify-between p-2 bg-white border border-gray-100 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer" onclick="window.location.href='#/character?id=${targetChar.id}'">
                     <div class="flex items-center space-x-2">
                         <img src="${targetChar.avatar}" class="w-8 h-8 rounded-full object-cover border border-gray-200">
                         <div>
