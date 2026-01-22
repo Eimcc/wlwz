@@ -51,17 +51,15 @@ function Layout({ children }: { children: ReactNode }) {
         <div className="max-w-6xl mx-auto text-center space-y-1">
           <p className="text-lg">武林外传人物图鉴</p>
           <p className="text-gray-400">© 2025 江湖儿女情，客栈风云录</p>
-          <p className="text-gray-300 text-sm">
-            今日小店食客
-            <span id="visitor-today" className="font-semibold mx-1">
-              -
+          <div className="flex justify-center items-center gap-4 text-sm text-gray-400 pt-2">
+            <span id="busuanzi_container_site_pv" style={{ display: 'none' }}>
+              总访问量 <span id="busuanzi_value_site_pv" className="text-yellow-500 font-bold"></span> 次
             </span>
-            位，历史食客
-            <span id="visitor-total" className="font-semibold mx-1">
-              -
+            <span className="hidden sm:inline">|</span>
+            <span id="busuanzi_container_site_uv" style={{ display: 'none' }}>
+              总访客数 <span id="busuanzi_value_site_uv" className="text-yellow-500 font-bold"></span> 人
             </span>
-            位
-          </p>
+          </div>
         </div>
       </footer>
     </div>

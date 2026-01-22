@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import heroBg from "../../resources/backgrounds/inn-interior.png";
+
+const heroBg = `${import.meta.env.BASE_URL}resources/backgrounds/inn-interior.webp`;
 
 export default function Home() {
   useEffect(() => {
