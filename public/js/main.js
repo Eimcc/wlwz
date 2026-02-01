@@ -1088,6 +1088,15 @@ async function fetchHuojiaWeather() {
         const feeling = getBodyFeeling(context.weather.temp);
         weatherEl.textContent = context.weather.desc + ' ' + feeling;
     }
+
+    // Dispatch custom event for React components
+    try {
+        const event = new CustomEvent('weather-updated', { detail: context.weather });
+        window.dispatchEvent(event);
+    } catch (e) {
+        console.error('Failed to dispatch weather event', e);
+    }
+
     return context;
 }
 
