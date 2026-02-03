@@ -37,6 +37,7 @@ export default function CharacterPage() {
   const navigate = useNavigate();
   const [characters, setCharacters] = useState<Record<string, Character>>({});
   const [selectedId, setSelectedId] = useState<string>("");
+  const [currentQuote, setCurrentQuote] = useState<string>("");
 
   useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}resources/characters.json`)
@@ -58,6 +59,13 @@ export default function CharacterPage() {
   }, [location.search]);
 
   const char = characters[selectedId];
+
+  useEffect(() => {
+    if (char?.quotes?.length) {
+      const randomIndex = Math.floor(Math.random() * char.quotes.length);
+      setCurrentQuote(char.quotes[randomIndex]);
+    }
+  }, [selectedId, characters]);
 
   if (!char) return <div className="pt-32 text-center">加载中...</div>;
 
@@ -135,7 +143,7 @@ export default function CharacterPage() {
                           <div className="flex items-center gap-2 px-1 whitespace-nowrap">
                             <MessageSquare size={14} className="text-amber-700 shrink-0" />
                             <span className="text-sm italic font-medium text-gray-800 line-clamp-1 pb-1">
-                              {char.quotes[0]}
+                              {currentQuote}
                             </span>
                           </div>
                         </div>
