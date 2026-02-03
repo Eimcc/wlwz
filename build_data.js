@@ -69,7 +69,11 @@ function updateData() {
     };
 
     // Write JSON file (optional, mostly for debug or other tools)
-    fs.writeFileSync(outputJsonPath, JSON.stringify(combinedData, null, 4), 'utf8');
+    // Also replace .png/.jpg with .webp in the output JSON
+    const combinedDataStr = JSON.stringify(combinedData, null, 4)
+        .replace(/\.png/g, '.webp')
+        .replace(/\.jpg/g, '.webp');
+    fs.writeFileSync(outputJsonPath, combinedDataStr, 'utf8');
     console.log(`Generated ${outputJsonPath}`);
 
     // Write JS file for frontend

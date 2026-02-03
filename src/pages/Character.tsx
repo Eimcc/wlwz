@@ -84,7 +84,7 @@ export default function CharacterPage() {
                     : "hover:bg-white/50"
                 }`}
               >
-                <img src={c.avatar} className="w-14 h-14 rounded-full object-cover border-2 border-white shadow-sm" alt={c.name} />
+                <img src={`${import.meta.env.BASE_URL}${c.avatar}`} className="w-14 h-14 rounded-full object-cover border-2 border-white shadow-sm" alt={c.name} />
                 <span className={`text-sm font-bold ${selectedId === c.id ? "text-amber-800" : "text-gray-600"}`}>
                   {c.name}
                 </span>
@@ -111,18 +111,39 @@ export default function CharacterPage() {
                   
                   <div className="relative group">
                     <div className="w-40 h-40 rounded-3xl overflow-hidden border-4 border-white shadow-2xl transition-transform group-hover:scale-105 duration-500">
-                      <img src={char.avatar} className="w-full h-full object-cover" alt={char.name} />
+                      <img src={`${import.meta.env.BASE_URL}${char.avatar}`} className="w-full h-full object-cover" alt={char.name} />
                     </div>
                     <motion.div 
                       initial={{ scale: 0, rotate: -10 }}
                       animate={{ scale: 1, rotate: 0 }}
-                      className="absolute -top-6 -right-6"
+                      className="absolute -top-8 -right-8"
                     >
-                      <div className="quote-bubble-middle px-4 py-2 rounded-xl shadow-lg border border-amber-100 flex items-center gap-2">
-                        <MessageSquare size={14} className="text-amber-700" />
-                        <span className="text-sm italic font-medium text-gray-800 line-clamp-1">
-                          {char.quotes[0]}
-                        </span>
+                      <div className="flex items-stretch drop-shadow-lg filter h-[41px]">
+                        <img 
+                          src={`${import.meta.env.BASE_URL}characters/avatars/ui/chat bubble_left.svg`} 
+                          alt="" 
+                          className="h-full w-auto block select-none" 
+                        />
+                        <div 
+                          className="flex items-center px-1 h-full"
+                          style={{
+                            backgroundImage: `url('${import.meta.env.BASE_URL}characters/avatars/ui/chat bubble_middle.svg')`,
+                            backgroundSize: 'auto 100%',
+                            backgroundRepeat: 'repeat-x'
+                          }}
+                        >
+                          <div className="flex items-center gap-2 px-1 whitespace-nowrap">
+                            <MessageSquare size={14} className="text-amber-700 shrink-0" />
+                            <span className="text-sm italic font-medium text-gray-800 line-clamp-1 pb-1">
+                              {char.quotes[0]}
+                            </span>
+                          </div>
+                        </div>
+                        <img 
+                          src={`${import.meta.env.BASE_URL}characters/avatars/ui/chat bubble_right.svg`} 
+                          alt="" 
+                          className="h-full w-auto block select-none" 
+                        />
                       </div>
                     </motion.div>
                   </div>

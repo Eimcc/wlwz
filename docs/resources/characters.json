@@ -20,7 +20,7 @@
                 "轻功",
                 "易容术"
             ],
-            "avatar": "characters/avatars/portraits/hero-portrait.png",
+            "avatar": "characters/avatars/portraits/hero-portrait.webp",
             "description": "传说中的盗圣，却不热爱本职工作，退出江湖隐居此处。会点穴、有武功，其实胆小如鼠，想改过自新。十五六岁因轻功武功之高得了盗圣的名字，掌握了盗圣的技术，却没生一副盗贼的心肠。",
             "quotes": [
                 "葵花点穴手！",
@@ -153,7 +153,7 @@
                 "排山倒海",
                 "分筋错骨手"
             ],
-            "avatar": "characters/avatars/portraits/heroine-portrait.png",
+            "avatar": "characters/avatars/portraits/heroine-portrait.webp",
             "description": "家世显赫的大侠千金，父亲是郭巨侠，母亲是缉盗专家。渴望行侠仗义，一身娇横任性的毛病。虽武功不咋的，却是个标准的野蛮女友。从小争胜好胜，选择了一条离家出走的道路。",
             "quotes": [
                 "排山倒海！！！",
@@ -272,7 +272,7 @@
             "martialArts": [
                 "玄铁菜刀刀法"
             ],
-            "avatar": "characters/avatars/portraits/chef-portrait.png",
+            "avatar": "characters/avatars/portraits/chef-portrait.webp",
             "description": "成天幻想学武功当大侠，就是不好好做饭。京城食神诸葛孔方的唯一传人，拥有玄铁菜刀（正面：旺德福，反面：泰瑞宝，刀把：我太富）。母亲是断指轩辕，曾经是个赌徒。",
             "quotes": [
                 "我姑父是娄知县！",
@@ -385,7 +385,7 @@
                 "嘴炮技能",
                 "讲道理"
             ],
-            "avatar": "characters/avatars/portraits/scholar-portrait.png",
+            "avatar": "characters/avatars/portraits/scholar-portrait.webp",
             "description": "三岁识千字，五岁背唐诗，七岁熟读四书五经，八岁精通诗词歌赋，但却是百无一用的书生。神童成名，却迟迟考不中功名，无奈之下把祖产卖给了佟湘玉，当个账房乐得清闲。",
             "quotes": [
                 "子曾经曰过...",
@@ -499,7 +499,7 @@
                 "葵花点穴手",
                 "五岳剑法"
             ],
-            "avatar": "characters/avatars/portraits/heroine-portrait.png",
+            "avatar": "characters/avatars/portraits/heroine-portrait.webp",
             "description": "江湖上传闻是个女魔头，实际上是个爱逃学并且只想吃糖葫芦的小丫头片子。衡山派掌门兼五岳剑派总盟主。哥哥是莫小宝，嫂子是佟湘玉。",
             "quotes": [
                 "我要吃糖葫芦！",
@@ -607,7 +607,7 @@
             "martialArts": [
                 "算盘功"
             ],
-            "avatar": "characters/avatars/portraits/innkeeper-portrait.png",
+            "avatar": "characters/avatars/portraits/innkeeper-portrait.webp",
             "description": "怡红楼的老板娘，钱掌柜的妻子，为人精明，爱占小便宜，与同福客栈是竞争关系，但本性不坏。",
             "quotes": [
                 "哎哟，这不是佟掌柜嘛！",
@@ -680,7 +680,7 @@
             "faction": "怡红楼",
             "occupation": "掌柜",
             "martialArts": [],
-            "avatar": "characters/avatars/portraits/scholar-portrait.png",
+            "avatar": "characters/avatars/portraits/scholar-portrait.webp",
             "description": "怡红楼的掌柜，钱夫人的丈夫，性格懦弱，怕老婆，但对妻子言听计从。",
             "quotes": [
                 "夫人说的是..."
@@ -745,7 +745,7 @@
                 "爱财如命"
             ],
             "martialArts": [],
-            "avatar": "characters/avatars/portraits/innkeeper-portrait.png",
+            "avatar": "characters/avatars/portraits/innkeeper-portrait.webp",
             "description": "同福客栈的掌柜，龙门镖局的千金，风情万种但心地善良，婆婆妈妈又十分鸡贼。虽为寡妇，却一直努力当好嫂子兼幼教家。她从小娇生惯养锦衣玉食，下嫁衡山派掌门，却成了寡妇，从此要肩负起照顾尚未成年的小姑子的责任。",
             "quotes": [
                 "额滴个神啊！",
@@ -865,7 +865,7 @@
                 "醉拳",
                 "捕快功夫"
             ],
-            "avatar": "characters/avatars/portraits/hero-portrait.png",
+            "avatar": "characters/avatars/portraits/hero-portrait.webp",
             "description": "七侠镇衙门第三十七任缁衣捕头，燕小六的师父。每天梦想着破大案子，一身正气但却没有什么本事。后来调任十八里铺捕头。",
             "quotes": [
                 "小贼哪里跑！",
@@ -979,7 +979,7 @@
                 "醉拳",
                 "唢呐功"
             ],
-            "avatar": "characters/avatars/portraits/hero-portrait.png",
+            "avatar": "characters/avatars/portraits/hero-portrait.webp",
             "description": "七侠镇衙门第三十八任缁衣捕头，天津人，原是吹唢呐的。一生中最爱他的七舅姥爷，梦想成为天下第一捕头。后来调到京城六扇门。",
             "quotes": [
                 "帮我照顾好我七舅姥爷和他三外甥女！",
@@ -1090,7 +1090,7 @@
                 "刀法",
                 "鞭法"
             ],
-            "avatar": "characters/avatars/portraits/heroine-portrait.png",
+            "avatar": "characters/avatars/portraits/heroine-portrait.webp",
             "description": "李大嘴的梦中情人，江湖艺人，擅长刀法和鞭法。曾经来到七侠镇卖艺，让李大嘴一见钟情。后来嫁给了别人，但仍是大嘴心中永远的痛。",
             "quotes": [
                 "我就喜欢打老婆的，打是疼骂是爱～",
@@ -1171,7 +1171,7 @@
                 "易容术",
                 "刺绣"
             ],
-            "avatar": "characters/avatars/portraits/heroine-portrait.png",
+            "avatar": "characters/avatars/portraits/heroine-portrait.webp",
             "description": "葵花派倒数第一高手，什么都会，美丽却没有爱情光顾。苦苦等了十几年的师兄原来为了一根糖人欺骗了她。天真善良，多才多艺，擅长刺绣和点穴。",
             "quotes": [
                 "放着我来！",
