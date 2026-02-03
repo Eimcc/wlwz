@@ -5,7 +5,7 @@ import viteCompression from 'vite-plugin-compression';
 
 // https://vite.dev/config/
 export default defineConfig(({ command }) => ({
-  base: '/wlwz/',
+  base: './',
   build: {
     sourcemap: 'hidden',
     outDir: 'docs',
