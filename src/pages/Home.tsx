@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, MapPin, Clock, Cloud, Sun, CloudRain, Snowflake, Wind, X, User, Shield, Briefcase, Sword, Heart, History, TrendingUp, MessageSquare, ChevronRight, Users, Sparkles } from "lucide-react";
+import { Search, MapPin, Clock, Cloud, Sun, CloudRain, Snowflake, Wind, X, User, Shield, Briefcase, Sword, Heart, History, TrendingUp, MessageSquare, ChevronRight, Users, Sparkles, Radio, Volume2 } from "lucide-react";
 import * as echarts from "echarts";
 
 interface Character {
@@ -82,6 +82,34 @@ function getBodyFeeling(temp: number): string {
   return '酷热';
 }
 
+// 24小时大事记广播内容
+const BROADCAST_EVENTS = [
+  { time: "子时", event: "白展堂在客栈大堂巡逻，确保没有可疑人物" },
+  { time: "丑时", event: "佟湘玉在房间算账，发现账目对不上" },
+  { time: "寅时", event: "郭芙蓉在厨房偷吃，被李大嘴发现" },
+  { time: "卯时", event: "吕秀才早起读书，准备科举考试" },
+  { time: "辰时", event: "莫小贝赖床不起，被佟湘玉叫起上学" },
+  { time: "巳时", event: "邢捕头来客栈巡查，询问近日有无异常" },
+  { time: "午时", event: "李大嘴在厨房忙碌，准备午餐" },
+  { time: "未时", event: "燕小六在街口练习吹唢呐，引来围观" },
+  { time: "申时", event: "祝无双在客栈帮忙，展现葵花点穴手" },
+  { time: "酉时", event: "杨蕙兰路过七侠镇，李大嘴魂不守舍" },
+  { time: "戌时", event: "钱夫人来客栈找茬，与佟湘玉斗嘴" },
+  { time: "亥时", event: "众人围坐大堂，听白展堂讲江湖故事" },
+  { time: "子时", event: "客栈打烊，众人各自回房休息" },
+  { time: "丑时", event: "有神秘客人在客栈外徘徊" },
+  { time: "寅时", event: "更夫敲锣报时，提醒防火防盗" },
+  { time: "卯时", event: "早市开始，街上逐渐热闹起来" },
+  { time: "辰时", event: "白马书院开门，莫小贝不情愿地去上学" },
+  { time: "巳时", event: "怡红楼钱掌柜来同福客栈串门" },
+  { time: "午时", event: "客栈满座，白展堂忙得脚不沾地" },
+  { time: "未时", event: "郭芙蓉练功打坏了桌子，佟湘玉心疼" },
+  { time: "申时", event: "吕秀才与郭芙蓉斗嘴，众人看热闹" },
+  { time: "酉时", event: "夕阳西下，客栈准备晚餐" },
+  { time: "戌时", event: "老邢来客栈蹭饭，讲述衙门趣事" },
+  { time: "亥时", event: "客栈灯火通明，江湖客人们饮酒畅谈" },
+];
+
 export default function Home() {
   const [characters, setCharacters] = useState<Record<string, Character>>({});
   const [selectedChar, setSelectedChar] = useState<Character | null>(null);
@@ -89,6 +117,7 @@ export default function Home() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [weather, setWeather] = useState<WeatherData>({ desc: '晴朗', type: 'sunny', temp: 22 });
   const [showDetailModal, setShowDetailModal] = useState(false);
+  const [broadcastIndex, setBroadcastIndex] = useState(0);
   const chartRef = useRef<HTMLDivElement>(null);
   const chartInstance = useRef<echarts.ECharts | null>(null);
 
@@ -213,6 +242,14 @@ export default function Home() {
     };
   }, []);
 
+  // 广播系统 - 轮播大事记
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setBroadcastIndex(prev => (prev + 1) % BROADCAST_EVENTS.length);
+    }, 5000); // 每5秒切换一条
+    return () => clearInterval(timer);
+  }, []);
+
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
   };
@@ -275,6 +312,50 @@ export default function Home() {
               </div>
             </div>
           </div>
+
+          {/* 广播系统 */}
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="mt-3 glass-card rounded-xl px-4 py-2 flex items-center gap-3"
+          >
+            <div className="flex items-center gap-2 text-amber-700 flex-shrink-0">
+              <Radio className="w-4 h-4" />
+              <span className="text-xs font-bold">同福广播</span>
+              <Volume2 className="w-3 h-3 animate-pulse" />
+            </div>
+            <div className="flex-1 overflow-hidden">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={broadcastIndex}
+                  initial={{ x: 50, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  exit={{ x: -50, opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="flex items-center gap-2 text-sm"
+                >
+                  <span className="text-amber-600 font-medium text-xs whitespace-nowrap">
+                    {BROADCAST_EVENTS[broadcastIndex].time}
+                  </span>
+                  <span className="text-gray-700 truncate">
+                    {BROADCAST_EVENTS[broadcastIndex].event}
+                  </span>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+            <div className="flex gap-1 flex-shrink-0">
+              {BROADCAST_EVENTS.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setBroadcastIndex(idx)}
+                  className={`w-1.5 h-1.5 rounded-full transition-colors ${
+                    idx === broadcastIndex ? 'bg-amber-600' : 'bg-amber-200'
+                  }`}
+                />
+              ))}
+            </div>
+          </motion.div>
         </div>
       </motion.div>
 
