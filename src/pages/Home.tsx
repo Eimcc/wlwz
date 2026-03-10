@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, MapPin, Clock, Cloud, Sun, CloudRain, Snowflake, Wind, X, User, Shield, Briefcase, Sword, Heart, History, TrendingUp, MessageSquare, ChevronRight, Users, Sparkles, Radio, Volume2 } from "lucide-react";
+import { Search, MapPin, Clock, Cloud, Sun, CloudRain, Snowflake, Wind, X, User, Shield, Briefcase, Sword, Heart, History, TrendingUp, MessageSquare, ChevronRight, Users, Sparkles, Radio, Volume2, ScrollText, Calendar, ChevronDown } from "lucide-react";
 import * as echarts from "echarts";
 
 interface Character {
@@ -35,6 +35,14 @@ interface WeatherData {
   desc: string;
   type: 'sunny' | 'cloudy' | 'rainy' | 'snowy';
   temp: number;
+}
+
+interface ActivityLog {
+  time: string;
+  shichen: string;
+  activity: string;
+  location: string;
+  mood: 'happy' | 'calm' | 'sad' | 'angry' | 'excited';
 }
 
 const heroBg = `${import.meta.env.BASE_URL}resources/backgrounds/inn-interior.webp`;
@@ -110,6 +118,63 @@ const BROADCAST_EVENTS = [
   { time: "亥时", event: "客栈灯火通明，江湖客人们饮酒畅谈" },
 ];
 
+// 生成角色活动日志
+function generateActivityLogs(character: Character, mode: '12h' | '7d'): ActivityLog[] {
+  const shichenList = ['子时', '丑时', '寅时', '卯时', '辰时', '巳时', '午时', '未时', '申时', '酉时', '戌时', '亥时'];
+  const locations: Record<string, string[]> = {
+    '掌柜': ['柜台', '账房', '大堂'],
+    '跑堂': ['大堂', '门口', '厨房'],
+    '厨子': ['厨房', '后院', '储藏室'],
+    '账房': ['账房', '大堂', '客房'],
+    '打杂': ['大堂', '后院', '厨房'],
+    '学生': ['白马书院', '大堂', '街上'],
+    '捕头': ['衙门', '街道', '客栈'],
+    '捕快': ['衙门', '街道', '客栈'],
+    '衡山掌门': ['客房', '大堂', '后院'],
+    '五岳盟主': ['白马书院', '大堂', '街上'],
+  };
+  
+  const activities: Record<string, string[]> = {
+    '掌柜': ['盘点账目', '招呼客人', '训斥伙计', '数钱', '打算盘'],
+    '跑堂': ['端茶送水', '擦桌子', '招呼客人', '扫地', '传菜'],
+    '厨子': ['切菜', '炒菜', '熬汤', '尝味道', '研究新菜'],
+    '账房': ['记账', '读书', '写文章', '吟诗', '发呆'],
+    '打杂': ['擦桌子', '扫地', '倒垃圾', '搬东西', '帮忙'],
+    '学生': ['上课', '逃学', '吃糖葫芦', '玩耍', '背书'],
+    '捕头': ['巡街', '查案', '喝酒', '打官腔', '收税'],
+    '捕快': ['巡街', '查案', '吹唢呐', '练刀', '站岗'],
+    '衡山掌门': ['练功', '吃糖葫芦', '逃学', '玩耍', '背书'],
+    '五岳盟主': ['开会', '练功', '吃糖葫芦', '玩耍', '指挥'],
+  };
+  
+  const moods: ActivityLog['mood'][] = ['happy', 'calm', 'sad', 'angry', 'excited'];
+  const moodLabels: Record<string, string> = {
+    happy: '开心', calm: '平静', sad: '难过', angry: '生气', excited: '兴奋'
+  };
+  
+  const count = mode === '12h' ? 12 : 24;
+  const logs: ActivityLog[] = [];
+  
+  for (let i = 0; i < count; i++) {
+    const shichen = shichenList[i % 12];
+    const locationList = locations[character.occupation] || ['客栈'];
+    const activityList = activities[character.occupation] || ['休息'];
+    const location = locationList[Math.floor(Math.random() * locationList.length)];
+    const activity = activityList[Math.floor(Math.random() * activityList.length)];
+    const mood = moods[Math.floor(Math.random() * moods.length)];
+    
+    logs.push({
+      time: `${i * (mode === '12h' ? 1 : 7)}小时前`,
+      shichen,
+      activity: `${activity}`,
+      location,
+      mood
+    });
+  }
+  
+  return logs;
+}
+
 export default function Home() {
   const [characters, setCharacters] = useState<Record<string, Character>>({});
   const [selectedChar, setSelectedChar] = useState<Character | null>(null);
@@ -117,6 +182,9 @@ export default function Home() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [weather, setWeather] = useState<WeatherData>({ desc: '晴朗', type: 'sunny', temp: 22 });
   const [showDetailModal, setShowDetailModal] = useState(false);
+  const [showLogModal, setShowLogModal] = useState(false);
+  const [logCharacter, setLogCharacter] = useState<Character | null>(null);
+  const [logMode, setLogMode] = useState<'12h' | '7d'>('12h');
   const [broadcastIndex, setBroadcastIndex] = useState(0);
   const chartRef = useRef<HTMLDivElement>(null);
   const chartInstance = useRef<echarts.ECharts | null>(null);
@@ -189,6 +257,19 @@ export default function Home() {
   const closeCharacterDetail = () => {
     setShowDetailModal(false);
     setTimeout(() => setSelectedChar(null), 300);
+  };
+
+  // 打开角色日志
+  const openCharacterLog = (char: Character) => {
+    setLogCharacter(char);
+    setLogMode('12h');
+    setShowLogModal(true);
+  };
+
+  // 关闭角色日志
+  const closeCharacterLog = () => {
+    setShowLogModal(false);
+    setTimeout(() => setLogCharacter(null), 300);
   };
 
   // 渲染雷达图
@@ -470,6 +551,23 @@ export default function Home() {
         </div>
       </motion.div>
 
+      {/* 右下角：日志按钮 */}
+      <motion.button
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 0.5 }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={() => {
+          const chars = Object.values(characters);
+          if (chars.length > 0) openCharacterLog(chars[0]);
+        }}
+        className="fixed bottom-24 right-6 z-40 w-14 h-14 bg-amber-600 hover:bg-amber-700 text-white rounded-full shadow-lg flex items-center justify-center transition-colors"
+        title="查看角色日志"
+      >
+        <ScrollText className="w-6 h-6" />
+      </motion.button>
+
       {/* 角色详情弹窗 */}
       <AnimatePresence>
         {showDetailModal && selectedChar && (
@@ -537,7 +635,14 @@ export default function Home() {
                         <Briefcase size={12} /> {selectedChar.occupation}
                       </span>
                     </div>
-                    <p className="text-gray-600 leading-relaxed">{selectedChar.description}</p>
+                    <p className="text-gray-600 leading-relaxed mb-4">{selectedChar.description}</p>
+                    <button
+                      onClick={() => openCharacterLog(selectedChar)}
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-amber-100 hover:bg-amber-200 text-amber-800 rounded-full text-sm font-medium transition-colors"
+                    >
+                      <ScrollText size={16} />
+                      查看行为日志
+                    </button>
                   </div>
 
                   {/* 五维雷达图 */}
@@ -663,6 +768,20 @@ export default function Home() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* 角色日志弹窗 */}
+      <AnimatePresence>
+        {showLogModal && logCharacter && (
+          <CharacterLogModal
+            character={logCharacter}
+            characters={characters}
+            mode={logMode}
+            onModeChange={setLogMode}
+            onClose={closeCharacterLog}
+            onSelectCharacter={openCharacterLog}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -708,5 +827,193 @@ function RelationshipBadge({ type }: { type: string }) {
     <span className={`text-[10px] px-2 py-0.5 rounded-full ${colors[type] || 'bg-gray-100 text-gray-700'}`}>
       {labels[type] || type}
     </span>
+  );
+}
+
+// 角色日志弹窗组件
+function CharacterLogModal({
+  character,
+  characters,
+  mode,
+  onModeChange,
+  onClose,
+  onSelectCharacter
+}: {
+  character: Character;
+  characters: Record<string, Character>;
+  mode: '12h' | '7d';
+  onModeChange: (mode: '12h' | '7d') => void;
+  onClose: () => void;
+  onSelectCharacter: (char: Character) => void;
+}) {
+  const logs = useMemo(() => generateActivityLogs(character, mode), [character, mode]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const moodColors: Record<string, { bg: string; text: string; label: string }> = {
+    happy: { bg: 'bg-green-100', text: 'text-green-700', label: '开心' },
+    calm: { bg: 'bg-blue-100', text: 'text-blue-700', label: '平静' },
+    sad: { bg: 'bg-gray-100', text: 'text-gray-700', label: '难过' },
+    angry: { bg: 'bg-red-100', text: 'text-red-700', label: '生气' },
+    excited: { bg: 'bg-yellow-100', text: 'text-yellow-700', label: '兴奋' }
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      {/* 背景遮罩 */}
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+
+      {/* 弹窗内容 */}
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.9, opacity: 0, y: 20 }}
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-2xl max-h-[85vh] overflow-hidden bg-white rounded-3xl shadow-2xl flex flex-col"
+      >
+        {/* 头部 */}
+        <div className="bg-gradient-to-r from-amber-50 to-orange-50 p-6 rounded-t-3xl flex-shrink-0">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <img
+                src={`${import.meta.env.BASE_URL}${character.avatar}`}
+                alt={character.name}
+                className="w-16 h-16 rounded-2xl object-cover border-2 border-white shadow-lg"
+              />
+              <div>
+                <h2 className="text-2xl font-bold hero-title">{character.name}</h2>
+                <p className="text-sm text-gray-600">行为日志</p>
+              </div>
+            </div>
+            <button
+              onClick={onClose}
+              className="p-2 bg-white/80 hover:bg-white rounded-full shadow-lg transition-colors"
+            >
+              <X className="w-5 h-5 text-gray-600" />
+            </button>
+          </div>
+
+          {/* 角色选择器和模式切换 */}
+          <div className="flex items-center justify-between mt-4 gap-4">
+            {/* 角色选择下拉框 */}
+            <div className="relative">
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="flex items-center gap-2 px-4 py-2 bg-white rounded-xl shadow-sm border border-amber-200 hover:border-amber-400 transition-colors"
+              >
+                <span className="text-sm font-medium">切换角色</span>
+                <ChevronDown className={`w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+              
+              <AnimatePresence>
+                {isDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute top-full left-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-amber-100 max-h-60 overflow-y-auto z-50"
+                  >
+                    {Object.values(characters).map((char) => (
+                      <button
+                        key={char.id}
+                        onClick={() => {
+                          onSelectCharacter(char);
+                          setIsDropdownOpen(false);
+                        }}
+                        className={`w-full flex items-center gap-3 p-3 hover:bg-amber-50 transition-colors ${
+                          char.id === character.id ? 'bg-amber-50' : ''
+                        }`}
+                      >
+                        <img
+                          src={`${import.meta.env.BASE_URL}${char.avatar}`}
+                          alt={char.name}
+                          className="w-8 h-8 rounded-full object-cover"
+                        />
+                        <span className="text-sm font-medium">{char.name}</span>
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* 时间范围切换 */}
+            <div className="flex items-center gap-2 bg-white rounded-xl p-1 shadow-sm border border-amber-200">
+              <button
+                onClick={() => onModeChange('12h')}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  mode === '12h'
+                    ? 'bg-amber-500 text-white'
+                    : 'text-gray-600 hover:bg-amber-50'
+                }`}
+              >
+                <Clock className="w-4 h-4 inline mr-1" />
+                十二个时辰
+              </button>
+              <button
+                onClick={() => onModeChange('7d')}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  mode === '7d'
+                    ? 'bg-amber-500 text-white'
+                    : 'text-gray-600 hover:bg-amber-50'
+                }`}
+              >
+                <Calendar className="w-4 h-4 inline mr-1" />
+                七天内
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* 日志列表 */}
+        <div className="flex-1 overflow-y-auto p-6">
+          <div className="space-y-4">
+            {logs.map((log, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: idx * 0.05 }}
+                className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl hover:bg-amber-50/50 transition-colors"
+              >
+                {/* 时间 */}
+                <div className="flex-shrink-0 text-center min-w-[60px]">
+                  <div className="text-sm font-bold text-amber-700">{log.shichen}</div>
+                  <div className="text-xs text-gray-400">{log.time}</div>
+                </div>
+
+                {/* 内容 */}
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-sm font-medium text-gray-800">{log.activity}</span>
+                    <span className="text-xs text-gray-500">@ {log.location}</span>
+                  </div>
+                  <span className={`inline-block px-2 py-0.5 rounded-full text-xs ${moodColors[log.mood].bg} ${moodColors[log.mood].text}`}>
+                    {moodColors[log.mood].label}
+                  </span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* 查看更多按钮 */}
+          {mode === '12h' && (
+            <div className="mt-6 text-center">
+              <button
+                onClick={() => onModeChange('7d')}
+                className="px-6 py-3 bg-amber-100 hover:bg-amber-200 text-amber-800 rounded-full text-sm font-medium transition-colors"
+              >
+                查看更多记录（七天内）
+              </button>
+            </div>
+          )}
+        </div>
+      </motion.div>
+    </motion.div>
   );
 }
