@@ -1,0 +1,28 @@
+{
+    "id": "unique-id",
+    "name": "Character Name",
+    "aliases": ["Alias 1", "Alias 2"],
+    "faction": "Faction Name",
+    "occupation": "Occupation",
+    "martialArts": ["Skill 1", "Skill 2"],
+    "avatar": "characters/avatars/portraits/default.png",
+    "description": "Character description goes here.",
+    "quote": "Character famous quote.",
+    "category": "tongfu|official|jianghu|family",
+    "personality": {
+        "traits": {
+            "Trait1": 0,
+            "Trait2": 0,
+            "Trait3": 0,
+            "Trait4": 0,
+            "Trait5": 0
+        }
+    },
+    "hobbies": ["Hobby 1", "Hobby 2"],
+    "relationships": [
+        { "target": "target-id", "type": "love|friendship|family|enemy", "strength": 0, "description": "Relationship description" }
+    ],
+    "timeline": [
+        { "episode": "Episode/Time", "event": "Event description", "year": "Year" }
+    ]
+}

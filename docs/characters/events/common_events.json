@@ -1,0 +1,132 @@
+[
+    {
+        "id": "chef_morning_prep",
+        "title": "备菜熬汤",
+        "detail": "{name} 在厨房里忙前忙后，洗菜、切菜、熬头锅汤，准备早餐。",
+        "location": "厨房",
+        "type": "work",
+        "baseWeight": 12,
+        "conditions": {
+            "occupation": "厨子",
+            "timeOfDay": "morning"
+        }
+    },
+    {
+        "id": "chef_afternoon_create",
+        "title": "琢磨新菜式",
+        "detail": "{name} 对着案板发呆，忽然灵光一闪，开始尝试把平凡的食材做出新花样。",
+        "location": "厨房",
+        "type": "creative",
+        "baseWeight": 14,
+        "conditions": {
+            "occupation": "厨子",
+            "timeOfDay": "afternoon"
+        }
+    },
+    {
+        "id": "chef_evening_snack",
+        "title": "收拾厨房顺手留点夜宵",
+        "detail": "{name} 一边刷锅洗碗，一边顺手给自己留了一点夜宵填肚子。",
+        "location": "厨房",
+        "type": "work",
+        "baseWeight": 10,
+        "conditions": {
+            "occupation": "厨子",
+            "timeOfDay": "evening"
+        }
+    },
+    {
+        "id": "manager_morning_account",
+        "title": "清晨理账",
+        "detail": "{name} 一大早就翻着账本，盘点昨日收支，谋划今天的生意。",
+        "location": "柜台",
+        "type": "work",
+        "baseWeight": 12,
+        "conditions": {
+            "occupation": "掌柜",
+            "timeOfDay": "morning"
+        }
+    },
+    {
+        "id": "manager_afternoon_greet",
+        "title": "招呼客人算账",
+        "detail": "{name} 一边招呼客人，一边心算今日收入，精打细算不放过每一文钱。",
+        "location": "大堂与柜台之间",
+        "type": "work",
+        "baseWeight": 14,
+        "conditions": {
+            "occupation": "掌柜",
+            "timeOfDay": "afternoon"
+        }
+    },
+    {
+        "id": "waiter_morning_clean",
+        "title": "早早开门迎客",
+        "detail": "{name} 把门面打扫干净，顺手在门口和邻里打招呼。",
+        "location": "同福客栈门口",
+        "type": "social",
+        "baseWeight": 12,
+        "conditions": {
+            "occupation": "跑堂",
+            "timeOfDay": "morning"
+        }
+    },
+    {
+        "id": "waiter_afternoon_serve",
+        "title": "穿梭大堂端茶送水",
+        "detail": "{name} 脚下生风，忙着给每一桌添茶上菜，嘴上还不忘插科打诨活跃气氛。",
+        "location": "同福客栈大堂",
+        "type": "social",
+        "baseWeight": 16,
+        "conditions": {
+            "occupation": "跑堂",
+            "timeOfDay": "afternoon"
+        }
+    },
+    {
+        "id": "constable_morning_patrol",
+        "title": "清晨巡街",
+        "detail": "{name} 顺着街道慢慢走过，留意着夜里是否留下了什么蛛丝马迹。",
+        "location": "七侠镇街道",
+        "type": "work",
+        "baseWeight": 12,
+        "conditions": {
+            "occupation": ["捕快", "捕头"],
+            "timeOfDay": "morning"
+        }
+    },
+    {
+        "id": "constable_afternoon_intel",
+        "title": "街头打探消息",
+        "detail": "{name} 在街上与各路小贩闲聊，从只言片语中捕捉可能的线索。",
+        "location": "七侠镇街道",
+        "type": "social",
+        "baseWeight": 14,
+        "conditions": {
+            "occupation": ["捕快", "捕头"],
+            "timeOfDay": "afternoon"
+        }
+    },
+    {
+        "id": "common_evening_chat",
+        "title": "与众人围桌闲聊",
+        "detail": "{name} 和熟悉的几个人围坐一桌，聊着今天发生的趣事，时不时传来一阵笑声。",
+        "location": "同福客栈大堂",
+        "type": "social",
+        "baseWeight": 14,
+        "conditions": {
+            "timeOfDay": "evening"
+        }
+    },
+    {
+        "id": "common_night_sleep",
+        "title": "安稳入睡",
+        "detail": "{name} 已经躺下休息，偶尔还会在梦里继续白天未完的故事。",
+        "location": "卧房",
+        "type": "rest",
+        "baseWeight": 12,
+        "conditions": {
+            "timeOfDay": "night"
+        }
+    }
+]

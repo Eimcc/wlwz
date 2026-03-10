@@ -1,0 +1,58 @@
+{
+    "id": "qian-zhanggui", // 唯一标识符
+    "name": "钱掌柜", // 姓名
+    "aliases": [ // 别名列表
+        "钱老板"
+    ],
+    "faction": "怡红楼", // 所属势力
+    "occupation": "掌柜", // 职业
+    "martialArts": [], // 武功招式
+    "avatar": "characters/avatars/portraits/scholar-portrait.png", // 头像路径
+    "description": "怡红楼的掌柜，钱夫人的丈夫，性格懦弱，怕老婆，但对妻子言听计从。", // 人物简介
+    "quotes": [ // 经典台词
+        "夫人说的是..."
+    ],
+    "category": "jianghu", // 分类
+    "personality": { // 性格数据
+        "mbti": "ISFJ",
+        "bigFive": {
+            "开放性": 45,
+            "责任心": 60,
+            "外向性": 30,
+            "宜人性": 70,
+            "情绪稳定性": 75
+        },
+        "traits": { // 性格特征维度
+            "懦弱": 80,
+            "怕老婆": 90,
+            "善良": 70,
+            "没主见": 85
+        }
+    },
+    "coreValues": [
+        "家庭",
+        "安全",
+        "和谐",
+        "避免冲突",
+        "稳定生活"
+    ],
+    "hobbies": [ // 爱好
+        "听老婆话",
+        "躲在老婆身后"
+    ],
+    "relationships": [ // 人际关系
+        {
+            "target": "qian-furen", // 关系对象ID
+            "type": "family", // 关系类型
+            "strength": 90, // 关系强度
+            "description": "对妻子唯命是从" // 人物简介
+        }
+    ],
+    "timeline": [ // 生平大事记
+        {
+            "episode": "中期", // 集数
+            "event": "作为妻子的陪衬出现", // 事件描述
+            "year": "万历三十六年" // 年份
+        }
+    ]
+}

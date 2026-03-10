@@ -1,288 +1,631 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { motion, Variants } from "framer-motion";
-import { Search, Users, Map as MapIcon, BookOpen, Sparkles } from "lucide-react";
+import { useEffect, useState, useRef, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Search, MapPin, Clock, Cloud, Sun, CloudRain, Snowflake, Wind, X, User, Shield, Briefcase, Sword, Heart, History, TrendingUp, MessageSquare, ChevronRight, Users, Sparkles } from "lucide-react";
+import * as echarts from "echarts";
+
+interface Character {
+  id: string;
+  name: string;
+  aliases: string[];
+  faction: string;
+  occupation: string;
+  avatar: string;
+  description: string;
+  quotes: string[];
+  martialArts: string[];
+  hobbies: string[];
+  personality: {
+    traits: Record<string, number>;
+    bigFive: Record<string, number>;
+  };
+  timeline: Array<{
+    year: string;
+    episode: string;
+    event: string;
+  }>;
+  relationships: Array<{
+    target: string;
+    type: string;
+    strength: number;
+    description: string;
+  }>;
+}
+
+interface WeatherData {
+  desc: string;
+  type: 'sunny' | 'cloudy' | 'rainy' | 'snowy';
+  temp: number;
+}
 
 const heroBg = `${import.meta.env.BASE_URL}resources/backgrounds/inn-interior.webp`;
 
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2
-    }
-  }
-};
+// 获取农历日期（简化版）
+function getLunarDate(date: Date): string {
+  const months = ['正', '二', '三', '四', '五', '六', '七', '八', '九', '十', '冬', '腊'];
+  const days = ['初一', '初二', '初三', '初四', '初五', '初六', '初七', '初八', '初九', '初十',
+    '十一', '十二', '十三', '十四', '十五', '十六', '十七', '十八', '十九', '二十',
+    '廿一', '廿二', '廿三', '廿四', '廿五', '廿六', '廿七', '廿八', '廿九', '三十'];
+  // 简化计算，实际应使用农历库
+  const month = months[date.getMonth()];
+  const day = days[date.getDate() - 1] || '初一';
+  return `${month}月${day}`;
+}
 
-const itemVariants: Variants = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut"
-    }
+// 获取时辰
+function getShichen(date: Date): string {
+  const hour = date.getHours();
+  const shichenList = ['子时', '丑时', '寅时', '卯时', '辰时', '巳时', '午时', '未时', '申时', '酉时', '戌时', '亥时'];
+  let index = Math.floor((hour + 1) / 2);
+  if (index >= 12) index = 0;
+  return shichenList[index];
+}
+
+// 获取天气图标
+function getWeatherIcon(type: string) {
+  switch (type) {
+    case 'sunny': return <Sun className="w-5 h-5 text-amber-500" />;
+    case 'cloudy': return <Cloud className="w-5 h-5 text-gray-400" />;
+    case 'rainy': return <CloudRain className="w-5 h-5 text-blue-400" />;
+    case 'snowy': return <Snowflake className="w-5 h-5 text-cyan-300" />;
+    default: return <Sun className="w-5 h-5 text-amber-500" />;
   }
-};
+}
+
+// 获取体感描述
+function getBodyFeeling(temp: number): string {
+  if (temp <= 0) return '极寒';
+  if (temp <= 10) return '寒冷';
+  if (temp <= 18) return '微凉';
+  if (temp <= 24) return '舒适';
+  if (temp <= 29) return '温暖';
+  if (temp <= 35) return '炎热';
+  return '酷热';
+}
 
 export default function Home() {
-  const navigate = useNavigate();
+  const [characters, setCharacters] = useState<Record<string, Character>>({});
+  const [selectedChar, setSelectedChar] = useState<Character | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [weather, setWeather] = useState<WeatherData>({ desc: '晴朗', type: 'sunny', temp: 22 });
+  const [showDetailModal, setShowDetailModal] = useState(false);
+  const chartRef = useRef<HTMLDivElement>(null);
+  const chartInstance = useRef<echarts.ECharts | null>(null);
 
+  // 加载角色数据
   useEffect(() => {
-    (window as any).initIndexPage?.();
-    (window as any).updateVisitorStats?.();
+    fetch(`${import.meta.env.BASE_URL}resources/characters.json`)
+      .then(res => res.json())
+      .then(data => {
+        setCharacters(data.characters);
+      });
   }, []);
 
+  // 更新时间
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // 获取天气
+  useEffect(() => {
+    const fetchWeather = async () => {
+      try {
+        const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=35.258&longitude=113.6433&current_weather=true');
+        if (res.ok) {
+          const data = await res.json();
+          if (data?.current_weather) {
+            const code = data.current_weather.weathercode;
+            const temp = data.current_weather.temperature;
+            let weatherData: WeatherData = { desc: '晴朗', type: 'sunny', temp };
+            if (code === 0) weatherData = { desc: '晴朗', type: 'sunny', temp };
+            else if (code <= 3) weatherData = { desc: '多云', type: 'cloudy', temp };
+            else if (code <= 48) weatherData = { desc: '雾', type: 'cloudy', temp };
+            else if (code <= 67) weatherData = { desc: '细雨', type: 'rainy', temp };
+            else if (code <= 77) weatherData = { desc: '大雪', type: 'snowy', temp };
+            else if (code <= 82) weatherData = { desc: '阵雨', type: 'rainy', temp };
+            else weatherData = { desc: '暴雨', type: 'rainy', temp };
+            setWeather(weatherData);
+          }
+        }
+      } catch (e) {
+        console.error('Weather fetch failed:', e);
+      }
+    };
+    fetchWeather();
+  }, []);
+
+  // 过滤角色
+  const filteredCharacters = useMemo(() => {
+    const chars = Object.values(characters);
+    if (!searchQuery.trim()) return chars;
+    const query = searchQuery.toLowerCase();
+    return chars.filter(char =>
+      char.name.toLowerCase().includes(query) ||
+      char.aliases.some(alias => alias.toLowerCase().includes(query)) ||
+      char.occupation.toLowerCase().includes(query) ||
+      char.faction.toLowerCase().includes(query)
+    );
+  }, [characters, searchQuery]);
+
+  // 打开角色详情
+  const openCharacterDetail = (char: Character) => {
+    setSelectedChar(char);
+    setShowDetailModal(true);
+  };
+
+  // 关闭角色详情
+  const closeCharacterDetail = () => {
+    setShowDetailModal(false);
+    setTimeout(() => setSelectedChar(null), 300);
+  };
+
+  // 渲染雷达图
+  useEffect(() => {
+    if (!showDetailModal || !selectedChar || !chartRef.current) return;
+
+    if (!chartInstance.current) {
+      chartInstance.current = echarts.init(chartRef.current);
+    }
+
+    const bigFive = selectedChar.personality.bigFive;
+    const dimensions = Object.keys(bigFive);
+    const values = Object.values(bigFive);
+
+    const option = {
+      radar: {
+        indicator: dimensions.map(d => ({ name: d, max: 100 })),
+        shape: 'circle',
+        splitNumber: 4,
+        axisName: { color: '#8B4513', fontSize: 11 },
+        splitLine: { lineStyle: { color: 'rgba(139, 69, 19, 0.2)' } },
+        splitArea: { show: false }
+      },
+      series: [{
+        type: 'radar',
+        data: [{
+          value: values,
+          name: '性格特征',
+          areaStyle: { color: 'rgba(160, 82, 45, 0.4)' },
+          lineStyle: { color: '#A0522D', width: 2 },
+          itemStyle: { color: '#A0522D' }
+        }]
+      }]
+    };
+
+    chartInstance.current.setOption(option);
+
+    const handleResize = () => chartInstance.current?.resize();
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [showDetailModal, selectedChar]);
+
+  // 清理图表实例
+  useEffect(() => {
+    return () => {
+      chartInstance.current?.dispose();
+      chartInstance.current = null;
+    };
+  }, []);
+
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+  };
+
+  const formatDate = (date: Date) => {
+    return date.toLocaleDateString('zh-CN', { month: 'long', day: 'numeric', weekday: 'short' });
+  };
+
   return (
-    <div className="overflow-x-hidden">
-      <div id="particle-background" className="particle-bg" />
+    <div className="h-screen w-screen overflow-hidden relative">
+      {/* 背景图 - 客栈内 */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60 z-10" />
+        <img
+          src={heroBg}
+          alt="同福客栈"
+          className="w-full h-full object-cover"
+        />
+      </div>
 
-      <main>
-        {/* Hero Section */}
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-          <motion.div 
-            initial={{ scale: 1.1, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 1.5 }}
-            className="absolute inset-0"
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80 z-10" />
-            <img
-              src={heroBg}
-              alt="同福客栈"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-          </motion.div>
-
-          <motion.div 
-            className="relative z-20 text-center text-white px-6 max-w-5xl mx-auto"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <motion.div variants={itemVariants} className="flex justify-center mb-6">
-              <span className="px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-sm font-medium tracking-widest uppercase">
-                七侠镇 · 同福客栈
-              </span>
-            </motion.div>
-            
-            <motion.h1
-              variants={itemVariants}
-              className="hero-title text-7xl md:text-9xl font-bold mb-8 !text-white drop-shadow-2xl"
-              id="main-title"
-            >
-              武林外传
-            </motion.h1>
-            
-            <motion.p
-              variants={itemVariants}
-              className="text-xl md:text-3xl mb-12 quote-text !text-white/90 font-light"
-              id="main-subtitle"
-            >
-              "嘿，兄弟！我们好久不见，你在哪里？"
-            </motion.p>
-
-            <motion.div
-              variants={itemVariants}
-              className="flex flex-col sm:flex-row gap-6 justify-center"
-              id="hero-buttons"
-            >
-              <button
-                onClick={() => {
-                  // @ts-expect-error global function from main.js
-                  if (typeof scrollToSearch === "function") {
-                    // @ts-expect-error global
-                    scrollToSearch();
-                  }
-                }}
-                className="group relative bg-gradient-to-r from-amber-600 to-red-700 text-white px-10 py-4 rounded-full font-bold transition-all shadow-[0_0_20px_rgba(180,83,9,0.4)] hover:shadow-[0_0_30px_rgba(180,83,9,0.6)] hover:-translate-y-1 overflow-hidden"
-              >
-                <span className="relative z-10 flex items-center gap-2">
-                  开始探索 <Sparkles size={18} />
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-red-700 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </button>
-              
-              <button
-                onClick={() => {
-                  navigate("/relations");
-                }}
-                className="bg-white/10 backdrop-blur-md border border-white/30 text-white px-10 py-4 rounded-full font-bold hover:bg-white hover:text-gray-900 transition-all hover:-translate-y-1"
-              >
-                查看关系图谱
-              </button>
-            </motion.div>
-          </motion.div>
-          
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 1 }}
-            className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20"
-          >
-            <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center p-1">
-              <motion.div 
-                animate={{ y: [0, 12, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-                className="w-1.5 h-1.5 bg-white rounded-full"
-              />
+      {/* 顶部信息栏 */}
+      <motion.div
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        className="absolute top-0 left-0 right-0 z-30 px-6 py-4"
+      >
+        <div className="max-w-7xl mx-auto">
+          <div className="glass-card rounded-2xl px-6 py-3 flex flex-wrap items-center justify-between gap-4">
+            {/* 左侧：标题 */}
+            <div className="flex items-center gap-3">
+              <h1 className="text-2xl font-bold hero-title">武林外传</h1>
+              <span className="text-sm text-gray-500 hidden sm:block">|</span>
+              <span className="text-sm text-gray-600 hidden sm:block">同福客栈</span>
             </div>
-          </motion.div>
-        </section>
 
-        {/* Search Section */}
-        <section id="search-section" className="py-24 px-6 relative">
-          <div className="max-w-7xl mx-auto">
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="search-container p-10 mb-16 relative overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 p-8 opacity-5">
-                <Search size={120} />
+            {/* 右侧：信息面板 */}
+            <div className="flex items-center gap-6 flex-wrap">
+              {/* 地图/位置 */}
+              <div className="flex items-center gap-2 text-sm">
+                <MapPin className="w-4 h-4 text-amber-600" />
+                <span className="text-gray-700">七侠镇</span>
               </div>
-              
-              <h2 className="text-4xl font-bold text-center mb-10 hero-title">
-                寻找江湖儿女
-              </h2>
 
-              <div className="relative mb-10 max-w-3xl mx-auto">
-                <input
-                  type="text"
-                  id="search-input"
-                  placeholder="输入角色姓名、绰号或武功..."
-                  className="w-full px-8 py-5 text-xl bg-white/50 dark:bg-black/20 border-2 border-wood-brown/20 rounded-2xl focus:border-amber-600 focus:ring-4 focus:ring-amber-600/10 focus:outline-none transition-all placeholder:text-gray-400"
-                  onInput={(e) => {
-                    const value = (e.target as HTMLInputElement).value;
-                    // @ts-expect-error global from main.js
-                    if (typeof handleSearch === "function") {
-                      // @ts-expect-error global
-                      handleSearch(value);
-                    }
-                  }}
-                />
-                <div className="absolute right-6 top-1/2 -translate-y-1/2 text-amber-600">
-                  <Search size={28} />
+              {/* 时间 */}
+              <div className="flex items-center gap-2 text-sm">
+                <Clock className="w-4 h-4 text-amber-600" />
+                <div className="flex flex-col">
+                  <span className="text-gray-900 font-medium">{formatTime(currentTime)}</span>
+                  <span className="text-xs text-gray-500">{getShichen(currentTime)} · {getLunarDate(currentTime)}</span>
                 </div>
               </div>
 
-              <div
-                id="search-suggestions"
-                className="hidden absolute z-30 left-0 right-0 mt-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-2xl max-h-60 overflow-y-auto"
-              />
+              {/* 天气 */}
+              <div className="flex items-center gap-2 text-sm">
+                {getWeatherIcon(weather.type)}
+                <div className="flex flex-col">
+                  <span className="text-gray-900 font-medium">{weather.desc}</span>
+                  <span className="text-xs text-gray-500">{getBodyFeeling(weather.temp)}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
 
-              <div className="flex flex-wrap gap-3 justify-center">
-                {['全部', '同福客栈', '官府', '江湖', '家族'].map((label, idx) => (
-                  <button
-                    key={label}
-                    className={`filter-btn px-6 py-2.5 rounded-full font-medium text-sm ${idx === 0 ? 'active' : ''}`}
-                    onClick={() => {
-                      const typeMap: Record<string, string> = {
-                        '全部': 'all',
-                        '同福客栈': 'tongfu',
-                        '官府': 'official',
-                        '江湖': 'jianghu',
-                        '家族': 'family'
-                      };
-                      // @ts-expect-error global from main.js
-                      if (typeof filterCharacters === "function") {
-                        // @ts-expect-error global
-                        filterCharacters(typeMap[label]);
-                      }
-                    }}
+      {/* 中间：角色展示区域 */}
+      <div className="absolute inset-0 z-20 flex items-center justify-center pt-24 pb-32">
+        <div className="w-full max-w-7xl mx-auto px-6">
+          <AnimatePresence mode="wait">
+            {filteredCharacters.length > 0 ? (
+              <motion.div
+                key="characters"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4"
+              >
+                {filteredCharacters.map((char, index) => (
+                  <motion.button
+                    key={char.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                    whileHover={{ scale: 1.1, y: -5 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => openCharacterDetail(char)}
+                    className="group relative flex flex-col items-center"
                   >
-                    {label}
-                  </button>
+                    {/* 角色头像 */}
+                    <div className="relative">
+                      <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-4 border-white/80 shadow-2xl group-hover:border-amber-400 transition-all duration-300 bg-amber-100">
+                        <img
+                          src={`${import.meta.env.BASE_URL}${char.avatar}`}
+                          alt={char.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      {/* 悬浮光效 */}
+                      <div className="absolute inset-0 rounded-full bg-amber-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl" />
+                    </div>
+
+                    {/* 角色名称 */}
+                    <div className="mt-3 text-center">
+                      <span className="text-white font-bold text-sm sm:text-base drop-shadow-lg group-hover:text-amber-300 transition-colors">
+                        {char.name}
+                      </span>
+                      <p className="text-white/70 text-xs mt-0.5 drop-shadow-md">
+                        {char.occupation}
+                      </p>
+                    </div>
+
+                    {/* 悬浮提示 - 台词 */}
+                    <AnimatePresence>
+                      {char.quotes?.length > 0 && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                          whileHover={{ opacity: 1, y: 0, scale: 1 }}
+                          className="absolute -top-12 left-1/2 -translate-x-1/2 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none"
+                        >
+                          <div className="bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-xl shadow-lg border border-amber-200">
+                            <p className="text-xs text-gray-700 italic">"{char.quotes[0].slice(0, 15)}..."</p>
+                            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-white/95 rotate-45 border-r border-b border-amber-200" />
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.button>
                 ))}
+              </motion.div>
+            ) : (
+              <motion.div
+                key="empty"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-center text-white/80"
+              >
+                <p className="text-xl">未找到匹配的角色</p>
+                <p className="text-sm mt-2 text-white/60">试试其他关键词</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+
+      {/* 底部：搜索框 */}
+      <motion.div
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.3 }}
+        className="absolute bottom-0 left-0 right-0 z-30 px-6 pb-6"
+      >
+        <div className="max-w-2xl mx-auto">
+          <div className="glass-card rounded-2xl p-4 flex items-center gap-4">
+            <Search className="w-5 h-5 text-amber-600 flex-shrink-0" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="搜索角色姓名、绰号、武功或身份..."
+              className="flex-1 bg-transparent border-none outline-none text-gray-800 placeholder:text-gray-500"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="p-1 hover:bg-gray-200 rounded-full transition-colors"
+              >
+                <X className="w-4 h-4 text-gray-500" />
+              </button>
+            )}
+          </div>
+          <p className="text-center text-white/60 text-xs mt-3">
+            点击角色查看详细信息 · 共 {Object.keys(characters).length} 位江湖儿女
+          </p>
+        </div>
+      </motion.div>
+
+      {/* 角色详情弹窗 */}
+      <AnimatePresence>
+        {showDetailModal && selectedChar && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            onClick={closeCharacterDetail}
+          >
+            {/* 背景遮罩 */}
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+
+            {/* 弹窗内容 */}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto bg-white rounded-3xl shadow-2xl"
+            >
+              {/* 关闭按钮 */}
+              <button
+                onClick={closeCharacterDetail}
+                className="absolute top-4 right-4 z-10 p-2 bg-white/80 hover:bg-white rounded-full shadow-lg transition-colors"
+              >
+                <X className="w-5 h-5 text-gray-600" />
+              </button>
+
+              {/* 弹窗头部 */}
+              <div className="bg-gradient-to-r from-amber-50 to-orange-50 p-8 rounded-t-3xl">
+                <div className="flex flex-col md:flex-row gap-6 items-center md:items-start">
+                  {/* 头像 */}
+                  <div className="relative">
+                    <div className="w-32 h-32 rounded-3xl overflow-hidden border-4 border-white shadow-2xl">
+                      <img
+                        src={`${import.meta.env.BASE_URL}${selectedChar.avatar}`}
+                        alt={selectedChar.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    {/* 台词气泡 */}
+                    {selectedChar.quotes?.length > 0 && (
+                      <motion.div
+                        initial={{ scale: 0, rotate: -10 }}
+                        animate={{ scale: 1, rotate: 0 }}
+                        className="absolute -top-4 -right-20 md:-right-24"
+                      >
+                        <div className="bg-white px-3 py-2 rounded-2xl shadow-lg border border-amber-200 max-w-[160px]">
+                          <p className="text-xs text-gray-700 italic line-clamp-2">"{selectedChar.quotes[0]}"</p>
+                          <div className="absolute -bottom-2 left-4 w-3 h-3 bg-white rotate-45 border-r border-b border-amber-200" />
+                        </div>
+                      </motion.div>
+                    )}
+                  </div>
+
+                  {/* 基本信息 */}
+                  <div className="flex-1 text-center md:text-left">
+                    <h2 className="text-4xl font-bold hero-title mb-2">{selectedChar.name}</h2>
+                    <div className="flex flex-wrap gap-2 justify-center md:justify-start mb-4">
+                      <span className="px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-bold flex items-center gap-1">
+                        <Shield size={12} /> {selectedChar.faction}
+                      </span>
+                      <span className="px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-bold flex items-center gap-1">
+                        <Briefcase size={12} /> {selectedChar.occupation}
+                      </span>
+                    </div>
+                    <p className="text-gray-600 leading-relaxed">{selectedChar.description}</p>
+                  </div>
+
+                  {/* 五维雷达图 */}
+                  <div className="w-full md:w-48 h-48">
+                    <div ref={chartRef} className="w-full h-full" />
+                  </div>
+                </div>
+              </div>
+
+              {/* 弹窗内容区 */}
+              <div className="p-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  {/* 左侧：基本资料 */}
+                  <div className="space-y-6">
+                    <InfoSection title="基本资料" icon={<User size={18} />}>
+                      <div className="space-y-3">
+                        <InfoItem label="别名" value={selectedChar.aliases.join(" / ")} />
+                        <InfoItem label="门派" value={selectedChar.faction} />
+                        <InfoItem label="职业" value={selectedChar.occupation} />
+                      </div>
+                    </InfoSection>
+
+                    <InfoSection title="武功绝学" icon={<Sword size={18} />}>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedChar.martialArts.map(art => (
+                          <span key={art} className="px-3 py-1.5 bg-red-50 text-red-700 rounded-xl text-sm font-medium border border-red-100">
+                            {art}
+                          </span>
+                        ))}
+                        {selectedChar.martialArts.length === 0 && <span className="text-gray-400 text-sm italic">无武功记载</span>}
+                      </div>
+                    </InfoSection>
+
+                    <InfoSection title="兴趣爱好" icon={<Heart size={18} />}>
+                      <div className="grid grid-cols-2 gap-2">
+                        {selectedChar.hobbies.map(hobby => (
+                          <div key={hobby} className="flex items-center gap-2 bg-amber-50/50 p-2 rounded-xl text-sm text-amber-900 border border-amber-100/50">
+                            <div className="w-2 h-2 rounded-full bg-amber-400" />
+                            {hobby}
+                          </div>
+                        ))}
+                      </div>
+                    </InfoSection>
+                  </div>
+
+                  {/* 中间：性格特质 & 生平 */}
+                  <div className="space-y-6">
+                    <InfoSection title="性格特质" icon={<Sparkles size={18} />}>
+                      <div className="space-y-3">
+                        {Object.entries(selectedChar.personality.traits).map(([trait, value]) => (
+                          <div key={trait}>
+                            <div className="flex justify-between text-sm font-medium mb-1">
+                              <span className="text-gray-600">{trait}</span>
+                              <span className="text-amber-700">{value}%</span>
+                            </div>
+                            <div className="h-2 bg-amber-100 rounded-full overflow-hidden">
+                              <motion.div
+                                initial={{ width: 0 }}
+                                animate={{ width: `${value}%` }}
+                                transition={{ duration: 0.8, delay: 0.3 }}
+                                className="h-full bg-gradient-to-r from-amber-500 to-amber-600"
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </InfoSection>
+
+                    <InfoSection title="生平大事记" icon={<History size={18} />}>
+                      <div className="relative pl-5 space-y-4 before:absolute before:left-0 before:top-2 before:bottom-2 before:w-0.5 before:bg-gradient-to-b before:from-amber-600 before:to-amber-200">
+                        {selectedChar.timeline.map((item, idx) => (
+                          <div key={idx} className="relative">
+                            <div className="absolute -left-[22px] top-1 w-2.5 h-2.5 rounded-full bg-white border-2 border-amber-600" />
+                            <div className="bg-amber-50/50 p-3 rounded-xl border border-amber-100">
+                              <div className="flex justify-between items-center mb-1">
+                                <span className="text-amber-800 font-bold text-sm">{item.year}</span>
+                                <span className="text-[10px] px-2 py-0.5 bg-amber-100 text-amber-700 rounded-lg">{item.episode}</span>
+                              </div>
+                              <p className="text-gray-700 text-sm">{item.event}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </InfoSection>
+                  </div>
+
+                  {/* 右侧：羁绊关系 */}
+                  <div>
+                    <InfoSection title="羁绊关系" icon={<Users size={18} />}>
+                      <div className="space-y-3">
+                        {selectedChar.relationships.map((rel, idx) => {
+                          const target = characters[rel.target];
+                          if (!target) return null;
+                          return (
+                            <motion.button
+                              key={idx}
+                              whileHover={{ x: 5 }}
+                              onClick={() => openCharacterDetail(target)}
+                              className="w-full flex items-center gap-3 p-3 bg-gray-50 rounded-xl border border-transparent hover:border-amber-200 hover:bg-amber-50/30 transition-all text-left group"
+                            >
+                              <img
+                                src={`${import.meta.env.BASE_URL}${target.avatar}`}
+                                className="w-10 h-10 rounded-full object-cover border border-white"
+                                alt={target.name}
+                              />
+                              <div className="flex-1 min-w-0">
+                                <div className="flex justify-between items-center">
+                                  <span className="font-bold text-sm">{target.name}</span>
+                                  <RelationshipBadge type={rel.type} />
+                                </div>
+                                <p className="text-[10px] text-gray-500 truncate">{rel.description}</p>
+                              </div>
+                              <ChevronRight size={14} className="text-gray-300 group-hover:text-amber-600" />
+                            </motion.button>
+                          );
+                        })}
+                      </div>
+                    </InfoSection>
+                  </div>
+                </div>
               </div>
             </motion.div>
-
-            <div
-              id="characters-grid"
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
-            />
-          </div>
-        </section>
-
-        {/* Featured Section */}
-        <section className="py-24 px-6 bg-gradient-to-b from-amber-50/50 to-red-50/50 dark:from-amber-900/10 dark:to-red-900/10">
-          <div className="max-w-7xl mx-auto">
-            <motion.h2 
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              className="text-4xl font-bold text-center mb-16 hero-title"
-            >
-              江湖风云人物
-            </motion.h2>
-
-            <div className="splide" id="featured-characters">
-              <div className="splide__track">
-                <ul className="splide__list" />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Features Grid */}
-        <section className="py-24 px-6">
-          <div className="max-w-7xl mx-auto">
-            <motion.h2 
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              className="text-4xl font-bold text-center mb-20 hero-title"
-            >
-              探索江湖世界
-            </motion.h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-              <FeatureCard 
-                icon={<Search className="text-white" />} 
-                title="智能搜索" 
-                description="支持姓名、绰号、武功等多种方式，快速定位江湖豪杰"
-                color="from-amber-500 to-red-600"
-              />
-              <FeatureCard 
-                icon={<BookOpen className="text-white" />} 
-                title="性格分析" 
-                description="基于大五人格模型，深度解析每个角色的内心世界"
-                color="from-emerald-500 to-teal-600"
-              />
-              <FeatureCard 
-                icon={<Users className="text-white" />} 
-                title="关系图谱" 
-                description="可视化展示人物间错综复杂的情感纠葛与门派羁绊"
-                color="from-indigo-500 to-purple-600"
-              />
-              <FeatureCard 
-                icon={<MapIcon className="text-white" />} 
-                title="角色日志" 
-                description="根据性格与环境，动态预测角色在不同时辰的行为轨迹"
-                color="from-rose-500 to-pink-600"
-              />
-            </div>
-          </div>
-        </section>
-      </main>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
 
-function FeatureCard({ icon, title, description, color }: { icon: React.ReactNode, title: string, description: string, color: string }) {
+// 辅助组件
+function InfoSection({ title, icon, children }: { title: string, icon: React.ReactNode, children: React.ReactNode }) {
   return (
-    <motion.div 
-      whileHover={{ y: -10 }}
-      className="feature-card p-8 rounded-2xl text-center group"
-    >
-      <div className={`w-16 h-16 bg-gradient-to-r ${color} rounded-2xl mx-auto mb-6 flex items-center justify-center shadow-lg transform group-hover:rotate-12 transition-transform`}>
-        {icon}
-      </div>
-      <h3 className="text-2xl font-bold mb-4">{title}</h3>
-      <p className="text-gray-500 dark:text-gray-400 leading-relaxed">
-        {description}
-      </p>
-    </motion.div>
+    <div>
+      <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-amber-900 border-b border-amber-100 pb-2">
+        <span className="p-1.5 bg-amber-100 rounded-lg text-amber-700">{icon}</span>
+        {title}
+      </h3>
+      {children}
+    </div>
+  );
+}
+
+function InfoItem({ label, value }: { label: string, value: string }) {
+  return (
+    <div className="flex flex-col gap-0.5">
+      <span className="text-xs text-gray-400 font-medium uppercase tracking-wider">{label}</span>
+      <span className="text-sm font-bold text-gray-800">{value}</span>
+    </div>
+  );
+}
+
+function RelationshipBadge({ type }: { type: string }) {
+  const colors: Record<string, string> = {
+    love: 'bg-red-100 text-red-700',
+    family: 'bg-green-100 text-green-700',
+    friendship: 'bg-blue-100 text-blue-700',
+    enemy: 'bg-purple-100 text-purple-700',
+    love_rival: 'bg-pink-100 text-pink-700'
+  };
+  const labels: Record<string, string> = {
+    love: '爱情',
+    family: '亲情',
+    friendship: '友情',
+    enemy: '敌对',
+    love_rival: '情敌'
+  };
+  return (
+    <span className={`text-[10px] px-2 py-0.5 rounded-full ${colors[type] || 'bg-gray-100 text-gray-700'}`}>
+      {labels[type] || type}
+    </span>
   );
 }
